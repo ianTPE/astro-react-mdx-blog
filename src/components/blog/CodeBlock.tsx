@@ -1,21 +1,24 @@
 import { useState } from 'react';
+import { Highlight, themes } from 'prism-react-renderer';
 
 interface CodeBlockProps {
   children: string;
   language?: string;
   filename?: string;
   showLineNumbers?: boolean;
+  theme?: 'dark' | 'light';
 }
 
 export default function CodeBlock({ 
   children, 
   language = 'javascript', 
   filename,
-  showLineNumbers = false 
+  showLineNumbers = false,
+  theme = 'dark'
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
   
-  const codeText = typeof children === 'string' ? children : String(children);
+  const codeText = typeof children === 'string' ? children.trim() : String(children).trim();
   
   const copyToClipboard = async () => {
     try {
@@ -26,8 +29,9 @@ export default function CodeBlock({
       console.error('Failed to copy text: ', err);
     }
   };
-  
-  const lines = codeText.trim().split('\n');
+
+  // 選擇主題
+  const selectedTheme = theme === 'dark' ? themes.vsDark : themes.vsLight;
   
   return (
     <div className="not-prose my-6">
@@ -46,26 +50,33 @@ export default function CodeBlock({
           {copied ? '已複製!' : '複製'}
         </button>
         
-        <pre className={`bg-gray-900 text-gray-100 p-4 overflow-x-auto ${filename ? 'rounded-b-lg' : 'rounded-lg'}`}>
-          <code className={`language-${language}`}>
-            {showLineNumbers ? (
-              <div className="table w-full">
-                {lines.map((line, index) => (
-                  <div key={index} className="table-row">
-                    <span className="table-cell text-gray-500 select-none pr-4 text-right w-8">
-                      {index + 1}
-                    </span>
-                    <span className="table-cell">
-                      {line || '\n'}
-                    </span>
+        <Highlight
+          theme={selectedTheme}
+          code={codeText}
+          language={language as any}
+        >
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre 
+              className={`${className} p-4 overflow-x-auto ${filename ? 'rounded-b-lg' : 'rounded-lg'}`}
+              style={style}
+            >
+              <code>
+                {tokens.map((line, lineIndex) => (
+                  <div key={lineIndex} {...getLineProps({ line })}>
+                    {showLineNumbers && (
+                      <span className="select-none pr-4 text-gray-500 text-right inline-block w-8">
+                        {lineIndex + 1}
+                      </span>
+                    )}
+                    {line.map((token, tokenIndex) => (
+                      <span key={tokenIndex} {...getTokenProps({ token })} />
+                    ))}
                   </div>
                 ))}
-              </div>
-            ) : (
-              codeText
-            )}
-          </code>
-        </pre>
+              </code>
+            </pre>
+          )}
+        </Highlight>
       </div>
     </div>
   );

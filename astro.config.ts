@@ -9,5 +9,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [react(), mdx()]
+  integrations: [
+    react(), 
+    mdx({
+      syntaxHighlight: false, // 關閉內建的語法高亮，使用 prism-react-renderer
+    })
+  ]
 });

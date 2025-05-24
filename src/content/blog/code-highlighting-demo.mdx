@@ -1,0 +1,241 @@
+---
+title: '代碼高亮示範 - Prism React Renderer'
+description: '展示如何使用 prism-react-renderer 創建美麗的代碼區塊'
+date: '2025-05-25'
+author: 'Your Name'
+tags: ['javascript', 'react', 'syntax-highlighting']
+---
+
+import { CodeBlock, AdvancedCodeBlock } from '../../components/MDXComponents';
+
+# 代碼高亮示範
+
+這篇文章展示了我們新的代碼高亮功能，使用 `prism-react-renderer` 讓代碼區塊更加美觀！
+
+## 基本語法高亮
+
+使用標準的 Markdown 代碼區塊語法，現在會自動應用語法高亮：
+
+```javascript
+function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(10)); // 55
+```
+
+```python
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    
+    return quick_sort(left) + middle + quick_sort(right)
+```
+
+```css
+.gradient-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gradient-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+```
+
+## 進階代碼區塊
+
+### 帶檔案名的代碼區塊
+
+<CodeBlock 
+  language="typescript" 
+  filename="utils/api.ts"
+  showLineNumbers={true}
+>
+{`interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+class ApiClient {
+  private baseUrl: string;
+  
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+  
+  async get<T>(endpoint: string): Promise<ApiResponse<T>> {
+    const response = await fetch(\`\${this.baseUrl}\${endpoint}\`);
+    const data = await response.json();
+    
+    return {
+      data,
+      status: response.status,
+      message: response.ok ? 'Success' : 'Error'
+    };
+  }
+}`}
+</CodeBlock>
+
+### 進階代碼區塊 - 多種主題
+
+<AdvancedCodeBlock 
+  language="jsx" 
+  title="React Hook 範例"
+  theme="dracula"
+  showLineNumbers={true}
+  highlightLines={[8, 12, 16]}
+>
+{`import { useState, useEffect } from 'react';
+
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+  
+  const increment = () => setCount(prev => prev + 1);
+  const decrement = () => setCount(prev => prev - 1);
+  const reset = () => setCount(initialValue);
+  
+  useEffect(() => {
+    console.log('Count changed:', count);
+  }, [count]);
+  
+  return {
+    count,
+    increment,
+    decrement,
+    reset
+  };
+}
+
+export default function Counter() {
+  const { count, increment, decrement, reset } = useCounter(0);
+  
+  return (
+    <div className="flex items-center space-x-4">
+      <button onClick={decrement}>-</button>
+      <span>Count: {count}</span>
+      <button onClick={increment}>+</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  );
+}`}
+</AdvancedCodeBlock>
+
+### GitHub 主題
+
+<AdvancedCodeBlock 
+  language="bash" 
+  title="終端機指令"
+  theme="github"
+  showLineNumbers={false}
+>
+{`# 安裝依賴
+npm install prism-react-renderer
+
+# 啟動開發伺服器
+npm run dev
+
+# 建構生產版本
+npm run build
+
+# 預覽建構結果
+npm run preview`}
+</AdvancedCodeBlock>
+
+### Night Owl 主題
+
+<AdvancedCodeBlock 
+  language="json" 
+  filename="package.json"
+  theme="nightOwl"
+  showLineNumbers={true}
+>
+{`{
+  "name": "astro-react-mdx-blog",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/react": "^4.3.0",
+    "prism-react-renderer": "^2.3.1",
+    "react": "^19.1.0",
+    "tailwindcss": "^4.1.7"
+  }
+}`}
+</AdvancedCodeBlock>
+
+## 支援的主題
+
+我們的進階代碼區塊支援以下主題：
+
+- `vsDark` (預設) - VS Code 深色主題
+- `vsLight` - VS Code 淺色主題  
+- `github` - GitHub 風格
+- `dracula` - Dracula 主題
+- `oceanicNext` - Oceanic Next 主題
+- `nightOwl` - Night Owl 主題
+
+## 功能特色
+
+✨ **語法高亮** - 支援多種程式語言  
+📋 **一鍵複製** - 方便複製代碼  
+📝 **行號顯示** - 可選擇顯示行號  
+🎨 **多種主題** - 支援多種配色主題  
+📁 **檔案名稱** - 可顯示檔案名稱和語言標籤  
+🔍 **行高亮** - 可高亮特定行數  
+🖥️ **終端機風格** - 仿 macOS 終端機的設計
+
+## 使用方法
+
+### 標準 Markdown 語法
+
+\`\`\`javascript
+// 你的代碼
+\`\`\`
+
+### 使用 CodeBlock 組件
+
+\`\`\`jsx
+<CodeBlock 
+  language="javascript" 
+  filename="app.js"
+  showLineNumbers={true}
+>
+  // 你的代碼
+</CodeBlock>
+\`\`\`
+
+### 使用 AdvancedCodeBlock 組件
+
+\`\`\`jsx
+<AdvancedCodeBlock 
+  language="javascript" 
+  title="我的應用程式"
+  theme="dracula"
+  showLineNumbers={true}
+  highlightLines={[2, 5, 8]}
+>
+  // 你的代碼
+</AdvancedCodeBlock>
+\`\`\`
+
+現在你的代碼區塊看起來更專業更美觀了！🎉
