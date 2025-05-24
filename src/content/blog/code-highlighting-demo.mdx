@@ -1,9 +1,9 @@
 ---
-title: '代碼高亮示範 - Prism React Renderer'
-description: '展示如何使用 prism-react-renderer 創建美麗的代碼區塊'
+title: '代碼高亮示範 - Shiki 增強版'
+description: '展示 Shiki 語法高亮與自定義複製按鈕功能'
 author: 'Ian Chou'
 publishDate: 2025-05-25
-tags: ['JavaScript', 'React', 'Syntax Highlighting']
+tags: ['JavaScript', 'Syntax Highlighting', 'Shiki']
 featured: true
 category: '教學'
 readingTime: 10
@@ -17,40 +17,9 @@ import ReactHookDemo from '../../components/blog/demos/ReactHookDemo';
 import BashDemo from '../../components/blog/demos/BashDemo';
 import JsonDemo from '../../components/blog/demos/JsonDemo';
 
-export const components = {
-  pre: ({ children, ...props }) => {
-    // 檢查是否為代碼區塊
-    if (children?.props?.className && typeof children.props.children === 'string') {
-      const language = children.props.className.replace('language-', '');
-      const code = children.props.children;
-      
-      return (
-        <CodeBlock language={language} showLineNumbers={true}>
-          {code}
-        </CodeBlock>
-      );
-    }
-    
-    // 如果children是字符串，直接使用
-    if (typeof children === 'string') {
-      return (
-        <CodeBlock language="text" showLineNumbers={false}>
-          {children}
-        </CodeBlock>
-      );
-    }
-    
-    // 普通的 pre 標籤
-    return <pre {...props}>{children}</pre>;
-  },
-  
-  CodeBlock,
-  AdvancedCodeBlock,
-};
-
 # 代碼高亮示範
 
-這篇文章展示了我們新的代碼高亮功能，使用 `prism-react-renderer` 讓代碼區塊更加美觀！
+這篇文章展示了我們新的代碼高亮功能，使用 **Shiki** 內建語法高亮器，並添加了自定義**複製按鈕**功能！
 
 ## 基本語法高亮
 
@@ -96,68 +65,92 @@ def quick_sort(arr):
 }
 ```
 
-## 進階代碼區塊
+## 進階代碼區塊組件
 
-### 帶檔案名的代碼區塊
+### TypeScript API 示例
 
 <TypeScriptDemo />
 
-### 進階代碼區塊 - 多種主題
+### React Hook 示例
 
 <ReactHookDemo />
 
-### GitHub 主題
+### Bash 命令示例
 
 <BashDemo />
 
-### Night Owl 主題
+### JSON 配置示例
 
 <JsonDemo />
 
-## 支援的主題
+## Shiki 的特色功能
 
-我們的進階代碼區塊支援以下主題：
+### ✨ **內建語法高亮**
+- 使用 VS Code 原生主題
+- 構建時生成，性能優異
+- 支援大量程式語言
 
-- `vsDark` (預設) - VS Code 深色主題
-- `vsLight` - VS Code 淺色主題  
-- `github` - GitHub 風格
-- `dracula` - Dracula 主題
-- `oceanicNext` - Oceanic Next 主題
-- `nightOwl` - Night Owl 主題
+### 📋 **自定義複製按鈕**
+- 一鍵複製代碼內容
+- 複製成功視覺反饋
+- 錯誤處理提示
 
-## 功能特色
+### 🏷️ **語言標籤**
+- 自動顯示程式語言
+- 半透明設計
+- 位於代碼區塊左上角
 
-✨ **語法高亮** - 支援多種程式語言  
-📋 **一鍵複製** - 方便複製代碼  
-📝 **行號顯示** - 可選擇顯示行號  
-🎨 **多種主題** - 支援多種配色主題  
-📁 **檔案名稱** - 可顯示檔案名稱和語言標籤  
-🔍 **行高亮** - 可高亮特定行數  
-🖥️ **終端機風格** - 仿 macOS 終端機的設計
+### 🎨 **美觀設計**
+- GitHub 風格配色
+- 半透明按鈕
+- 懸停效果動畫
 
-## 使用方法
+## 支援的程式語言
 
-### 標準 Markdown 語法
+Shiki 支援多種程式語言，包括：
 
-\`\`\`javascript
-// 你的代碼
-\`\`\`
+- **JavaScript** / **TypeScript**
+- **Python** / **Java** / **C++**
+- **HTML** / **CSS** / **SCSS**
+- **React** / **Vue** / **Svelte**
+- **Bash** / **PowerShell**
+- **JSON** / **YAML** / **XML**
+- **SQL** / **GraphQL**
+- **Go** / **Rust** / **PHP**
 
-### 使用 CodeBlock 組件
+## 如何使用
 
-\`\`\`jsx
+### 方法一：標準 Markdown 語法
+
+只需要使用標準的三個反引號語法：
+
+```text
+```javascript
+function hello() {
+  console.log("Hello World!");
+}
+```
+```
+
+### 方法二：使用自定義組件
+
+當你需要更多功能時，可以使用我們的自定義組件：
+
+```text
 <CodeBlock 
   language="javascript" 
   filename="app.js"
   showLineNumbers={true}
 >
-  // 你的代碼
+  // 你的代碼內容
 </CodeBlock>
-\`\`\`
+```
 
-### 使用 AdvancedCodeBlock 組件
+### 方法三：進階組件
 
-\`\`\`jsx
+提供更多自定義選項：
+
+```text
 <AdvancedCodeBlock 
   language="javascript" 
   title="我的應用程式"
@@ -165,8 +158,36 @@ def quick_sort(arr):
   showLineNumbers={true}
   highlightLines={[2, 5, 8]}
 >
-  // 你的代碼
+  // 你的代碼內容
 </AdvancedCodeBlock>
-\`\`\`
+```
 
-現在你的代碼區塊看起來更專業更美觀了！🎉
+## 技術實現
+
+我們的代碼高亮解決方案結合了：
+
+1. **Astro 內建 Shiki** - 負責語法高亮渲染
+2. **自定義 JavaScript** - 添加複製按鈕功能
+3. **CSS 動畫** - 提供流暢的互動體驗
+4. **React 組件** - 供進階用途使用
+
+## 瀏覽器兼容性
+
+- ✅ **Chrome** 66+
+- ✅ **Firefox** 63+
+- ✅ **Safari** 13.1+
+- ✅ **Edge** 79+
+
+需要 `navigator.clipboard` API 支援才能使用複製功能。
+
+## 總結
+
+現在你的代碼區塊擁有：
+
+- 🎨 **美麗的語法高亮**
+- 📋 **便利的複製功能**
+- 🏷️ **清晰的語言標識**
+- ⚡ **優異的性能表現**
+- 📱 **響應式設計**
+
+享受更專業的代碼展示體驗吧！🎉
