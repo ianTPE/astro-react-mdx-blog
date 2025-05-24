@@ -1,15 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getFeaturedPosts, formatDate } from '../lib/metadata';
-import Card from '../components/global/Card';
-import Button from '../components/global/Button';
-import Tag from '../components/global/Tag';
+// import { getFeaturedPosts, formatDate } from '../lib/metadata';
+// import Card from '../components/global/Card';
+// import Button from '../components/global/Button';
+// import Tag from '../components/global/Tag';
 
-const featuredPosts = getFeaturedPosts();
+// const featuredPosts = getFeaturedPosts();
 ---
 
-<Layout title="首頁">
-  <main class="max-w-6xl mx-auto px-4 py-8">
+<Layout title="首頁" description="歡迎來到 Ian's Blog，分享前端開發經驗、技術見解和個人成長的地方。">
+  <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Hero Section -->
     <section class="text-center py-16">
       <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -23,15 +23,11 @@ const featuredPosts = getFeaturedPosts();
         使用 Astro + React + MDX + TypeScript 打造的現代博客。
       </p>
       <div class="flex gap-4 justify-center flex-wrap">
-        <a href="/blog">
-          <Button variant="primary" size="lg">
-            瀏覽博客
-          </Button>
+        <a href="/blog" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+          瀏覽博客
         </a>
-        <a href="/blog/welcome-to-my-blog">
-          <Button variant="outline" size="lg">
-            閱讀第一篇文章
-          </Button>
+        <a href="/about" class="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+          關於我
         </a>
       </div>
     </section>
@@ -42,89 +38,120 @@ const featuredPosts = getFeaturedPosts();
         技術棧
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
           <div class="text-4xl mb-4">⚡</div>
           <h3 class="font-bold text-lg mb-2">Astro</h3>
           <p class="text-sm text-gray-600">現代靜態網站生成器</p>
-        </Card>
-        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+        </div>
+        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
           <div class="text-4xl mb-4">⚛️</div>
           <h3 class="font-bold text-lg mb-2">React</h3>
           <p class="text-sm text-gray-600">動態 UI 組件</p>
-        </Card>
-        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+        </div>
+        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
           <div class="text-4xl mb-4">📝</div>
           <h3 class="font-bold text-lg mb-2">MDX</h3>
           <p class="text-sm text-gray-600">Markdown + JSX</p>
-        </Card>
-        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+        </div>
+        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
           <div class="text-4xl mb-4">🎨</div>
           <h3 class="font-bold text-lg mb-2">Tailwind</h3>
           <p class="text-sm text-gray-600">實用的 CSS 框架</p>
-        </Card>
+        </div>
       </div>
     </section>
 
-    <!-- Featured Posts -->
-    {featuredPosts.length > 0 && (
-      <section class="py-16">
-        <div class="flex items-center justify-between mb-12">
-          <h2 class="text-3xl font-bold text-gray-900">
-            精選文章
-          </h2>
-          <a href="/blog">
-            <Button variant="outline">
-              查看全部
-            </Button>
-          </a>
-        </div>
-        
-        <div class="grid gap-8 md:grid-cols-2">
-          {featuredPosts.slice(0, 2).map((post) => (
-            <Card variant="elevated" padding="none" className="overflow-hidden hover:shadow-xl transition-shadow">
-              <article class="h-full">
-                <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative">
-                  <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                    <h3 class="text-white text-xl font-bold text-center px-4">
-                      {post.title}
-                    </h3>
-                  </div>
-                </div>
-                
-                <div class="p-6">
-                  <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                    <span class="capitalize font-medium">{post.category}</span>
-                    <span>•</span>
-                    <time>{formatDate(post.publishDate)}</time>
-                  </div>
-                  
-                  <p class="text-gray-600 mb-4 line-clamp-3">
-                    {post.description}
-                  </p>
-                  
-                  <div class="flex flex-wrap gap-2 mb-4">
-                    {post.tags.slice(0, 3).map((tag) => (
-                      <Tag variant="primary" size="sm">{tag}</Tag>
-                    ))}
-                  </div>
-                  
-                  <a 
-                    href={`/blog/${post.slug}`}
-                    class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-                  >
-                    閱讀文章 →
-                  </a>
-                </div>
-              </article>
-            </Card>
-          ))}
-        </div>
-      </section>
-    )}
-
-    <!-- About -->
+    <!-- Featured Articles Section -->
     <section class="py-16">
-      <Card variant="bordered" padding="lg" className="bg-gradient-to-r from-gray-50 to-blue-50">
+      <div class="flex items-center justify-between mb-12">
+        <h2 class="text-3xl font-bold text-gray-900">
+          精選文章
+        </h2>
+        <a href="/blog" class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+          查看全部
+        </a>
+      </div>
+      
+      <div class="grid gap-8 md:grid-cols-2">
+        <!-- Article 1 -->
+        <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
+          <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative">
+            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+              <h3 class="text-white text-xl font-bold text-center px-4">
+                歡迎來到我的博客
+              </h3>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+              <span class="capitalize font-medium">技術</span>
+              <span>•</span>
+              <time>2024年5月24日</time>
+            </div>
+            
+            <p class="text-gray-600 mb-4">
+              這是我的第一篇博客文章，介紹這個博客的技術架構和我的寫作計劃。
+              使用 Astro、React、TypeScript 和 Tailwind CSS 打造。
+            </p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Astro</span>
+              <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">React</span>
+              <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">TypeScript</span>
+            </div>
+            
+            <a 
+              href="/blog/welcome"
+              class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+            >
+              閱讀文章 →
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
+          <div class="aspect-video bg-gradient-to-br from-green-500 to-blue-600 relative">
+            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+              <h3 class="text-white text-xl font-bold text-center px-4">
+                現代前端開發工具鏈
+              </h3>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+              <span class="capitalize font-medium">教學</span>
+              <span>•</span>
+              <time>2024年5月25日</time>
+            </div>
+            
+            <p class="text-gray-600 mb-4">
+              探討現代前端開發中必備的工具鏈，包括建構工具、包管理器、
+              開發環境配置等實用指南。
+            </p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Vite</span>
+              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">ESBuild</span>
+              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">工具鏈</span>
+            </div>
+            
+            <a 
+              href="/blog/modern-frontend-toolchain"
+              class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+            >
+              閱讀文章 →
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16">
+      <div class="bg-gradient-to-r from-gray-50 to-blue-50 p-8 rounded-lg border border-gray-200">
         <div class="text-center">
           <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
             I
@@ -134,17 +161,45 @@ const featuredPosts = getFeaturedPosts();
           </h2>
           <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
             我是 Ian，一名熱愛前端開發的工程師。專精於 React、TypeScript 和現代 Web 技術。
-            喜歡分享技術知識和探索新的開發工具。
+            喜歡分享技術知識和探索新的開發工具，致力於創造優秀的用戶體驗。
           </p>
           <div class="flex gap-4 justify-center flex-wrap">
-            <a href="#" class="text-blue-600 hover:text-blue-800">GitHub</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800">Twitter</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800">LinkedIn</a>
+            <a href="https://github.com/yourusername" class="text-blue-600 hover:text-blue-800 font-medium">GitHub</a>
+            <a href="https://twitter.com/yourusername" class="text-blue-600 hover:text-blue-800 font-medium">Twitter</a>
+            <a href="https://linkedin.com/in/yourusername" class="text-blue-600 hover:text-blue-800 font-medium">LinkedIn</a>
+            <a href="/about" class="text-blue-600 hover:text-blue-800 font-medium">了解更多</a>
           </div>
         </div>
-      </Card>
+      </div>
     </section>
-  </main>
+
+    <!-- Newsletter Section -->
+    <section class="py-16">
+      <div class="bg-blue-600 text-white p-8 rounded-lg text-center">
+        <h2 class="text-2xl font-bold mb-4">訂閱我的博客</h2>
+        <p class="mb-6 opacity-90">
+          定期收到最新的技術文章和開發心得，不錯過任何精彩內容。
+        </p>
+        <form class="max-w-md mx-auto flex gap-2">
+          <input 
+            type="email" 
+            placeholder="輸入您的電子郵件"
+            class="flex-1 px-4 py-2 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            required
+          >
+          <button 
+            type="submit"
+            class="px-6 py-2 bg-white text-blue-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            訂閱
+          </button>
+        </form>
+        <p class="text-sm opacity-75 mt-3">
+          我們重視您的隱私，不會發送垃圾郵件。
+        </p>
+      </div>
+    </section>
+  </div>
 </Layout>
 
 <style>
@@ -155,3 +210,22 @@ const featuredPosts = getFeaturedPosts();
     overflow: hidden;
   }
 </style>
+
+<script>
+  // Newsletter subscription handling
+  document.addEventListener('DOMContentLoaded', function() {
+    const newsletterForm = document.querySelector('section form');
+    
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value;
+        
+        if (email) {
+          alert('感謝訂閱！我們會將最新文章發送到您的信箱。');
+          this.querySelector('input[type="email"]').value = '';
+        }
+      });
+    }
+  });
+</script>
