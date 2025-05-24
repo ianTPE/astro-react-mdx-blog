@@ -8,8 +8,9 @@ const featuredPosts = getFeaturedPosts();
 <Layout title="首頁" description="歡迎來到 Ian's Blog，分享前端開發經驗、技術見解和個人成長的地方。">
   <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Hero Section -->
-    <section class="text-center py-16">
-      <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+    <section class="hero-section text-center py-16 relative">
+      <div class="relative z-10">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
         歡迎來到我的
         <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           技術博客
@@ -26,35 +27,6 @@ const featuredPosts = getFeaturedPosts();
         <a href="/about" class="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
           關於我
         </a>
-      </div>
-    </section>
-
-    <!-- Tech Stack -->
-    <section class="py-16">
-      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
-        技術棧
-      </h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
-          <div class="text-4xl mb-4">⚡</div>
-          <h3 class="font-bold text-lg mb-2">Astro</h3>
-          <p class="text-sm text-gray-600">現代靜態網站生成器</p>
-        </div>
-        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
-          <div class="text-4xl mb-4">⚛️</div>
-          <h3 class="font-bold text-lg mb-2">React</h3>
-          <p class="text-sm text-gray-600">動態 UI 組件</p>
-        </div>
-        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
-          <div class="text-4xl mb-4">📝</div>
-          <h3 class="font-bold text-lg mb-2">MDX</h3>
-          <p class="text-sm text-gray-600">Markdown + JSX</p>
-        </div>
-        <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
-          <div class="text-4xl mb-4">🎨</div>
-          <h3 class="font-bold text-lg mb-2">Tailwind</h3>
-          <p class="text-sm text-gray-600">實用的 CSS 框架</p>
-        </div>
       </div>
     </section>
 
@@ -125,6 +97,35 @@ const featuredPosts = getFeaturedPosts();
       )}
     </section>
 
+        <!-- Tech Stack -->
+        <section class="py-16">
+          <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+            技術棧
+          </h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
+              <div class="text-4xl mb-4">⚡</div>
+              <h3 class="font-bold text-lg mb-2">Astro</h3>
+              <p class="text-sm text-gray-600">現代靜態網站生成器</p>
+            </div>
+            <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
+              <div class="text-4xl mb-4">⚛️</div>
+              <h3 class="font-bold text-lg mb-2">React</h3>
+              <p class="text-sm text-gray-600">動態 UI 組件</p>
+            </div>
+            <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
+              <div class="text-4xl mb-4">📝</div>
+              <h3 class="font-bold text-lg mb-2">MDX</h3>
+              <p class="text-sm text-gray-600">Markdown + JSX</p>
+            </div>
+            <div class="p-6 border border-gray-200 rounded-lg text-center hover:shadow-lg transition-shadow">
+              <div class="text-4xl mb-4">🎨</div>
+              <h3 class="font-bold text-lg mb-2">Tailwind</h3>
+              <p class="text-sm text-gray-600">實用的 CSS 框架</p>
+            </div>
+          </div>
+        </section>
+
     <!-- About Section -->
     <section class="py-16">
       <div class="bg-gradient-to-r from-gray-50 to-blue-50 p-8 rounded-lg border border-gray-200">
@@ -184,6 +185,30 @@ const featuredPosts = getFeaturedPosts();
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  .hero-section {
+    background-image: url('/images/hero-background.webp');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 6rem 0;
+  }
+  
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+  }
+  
+  .hero-section > div {
+    position: relative;
+    z-index: 2;
   }
 </style>
 
