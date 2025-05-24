@@ -28,7 +28,7 @@ const posts = getAllPosts();
           <Card variant="elevated" padding="none" className="overflow-hidden hover:shadow-xl transition-shadow">
             <article class="h-full flex flex-col">
               {post.coverImage && (
-                <div class="aspect-video overflow-hidden">
+                <div class="h-48 overflow-hidden bg-gray-100">
                   <img 
                     src={post.coverImage}
                     alt={`${post.title} 封面圖片`}
