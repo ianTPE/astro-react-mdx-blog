@@ -12,48 +12,50 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-50 bg-white border-b border-gray-200">
-  <nav class="max-w-4xl mx-auto px-4 py-4">
-    <div class="flex justify-between items-center">
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+  <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
       <!-- Logo/Brand -->
-      <a href="/" class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-lg overflow-hidden">
-          <img 
-            src="/headerBrandLogo.webp" 
-            alt="Ian's Blog Logo" 
-            class="w-full h-full object-cover"
-            width="32"
-            height="32"
-            loading="eager"
-          />
-        </div>
-        <span class="text-2xl font-bold text-gray-900">Ian's Blog</span>
-      </a>
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg overflow-hidden">
+            <img 
+              src="/headerBrandLogo.webp" 
+              alt="Ian's Blog Logo" 
+              class="w-full h-full object-cover"
+              width="32"
+              height="32"
+              loading="eager"
+            />
+          </div>
+          <span class="font-bold text-xl text-gray-900">Ian's Blog</span>
+        </a>
+      </div>
 
       <!-- Desktop Navigation -->
       <div class="hidden md:block">
-        <ul class="flex gap-6">
+        <div class="ml-10 flex items-baseline space-x-4">
           {navItems.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class={`text-gray-700 hover:text-gray-900 ${
-                  item.active ? "font-medium text-gray-900" : ""
-                }`}
-              >
-                {item.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+            <a
+              href={item.href}
+              class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                item.active
+                  ? "bg-blue-100 text-blue-700"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              }`}
+            >
+              {item.name}
+            </a>
+          )}
+        </div>
       </div>
 
       <!-- Mobile Menu Button -->
-      <div class="md:hidden">
+      <div class="flex items-center">
         <button
           id="mobile-menu-button"
           type="button"
-          class="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+          class="md:hidden p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
           aria-label="開啟選單"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,20 +66,20 @@ const navItems = [
     </div>
 
     <!-- Mobile Navigation Menu -->
-    <div id="mobile-menu" class="md:hidden hidden mt-4">
-      <div class="space-y-2">
+    <div id="mobile-menu" class="md:hidden hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
         {navItems.map((item) => (
           <a
             href={item.href}
-            class={`block py-2 px-4 rounded-md transition-colors ${
+            class={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
               item.active
-                ? "bg-blue-100 text-blue-700 font-medium"
-                : "text-gray-700 hover:bg-gray-50"
+                ? "bg-blue-100 text-blue-700"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
             }`}
           >
             {item.name}
           </a>
-        ))}
+        )}
       </div>
     </div>
   </nav>
