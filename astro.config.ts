@@ -12,7 +12,7 @@ export default defineConfig({
   integrations: [
     react(), 
     mdx({
-      syntaxHighlight: false, // 關閉內建的語法高亮，使用 prism-react-renderer
+      syntaxHighlight: 'shiki', // 使用內建的 Shiki 語法高亮
       remarkPlugins: [],
       rehypePlugins: [],
       // 配置 MDX 組件
@@ -20,6 +20,6 @@ export default defineConfig({
     })
   ],
   markdown: {
-    syntaxHighlight: false, // 確保 Markdown 也不使用內建高亮
+    syntaxHighlight: 'shiki', // 確保 Markdown 也使用內建高亮
   }
 });
