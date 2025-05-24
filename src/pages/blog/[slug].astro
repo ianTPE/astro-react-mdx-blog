@@ -1,5 +1,5 @@
 ---
-import { getPostMetadata, formatDate, formatReadingTime } from '../../lib/metadata';
+import { getPostMetadata, formatDate, formatReadingTime, getAuthor } from '../../lib/metadata';
 import Layout from '../../layouts/Layout.astro';
 import Tag from '../../components/global/Tag';
 
@@ -23,6 +23,8 @@ const { default: Content } = post;
 if (!metadata) {
   return Astro.redirect('/404');
 }
+
+const author = getAuthor(metadata.author);
 ---
 
 <Layout title={metadata.title}>
@@ -44,7 +46,20 @@ if (!metadata) {
       </p>
       
       <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
-        <span>由 {metadata.author} 撰寫</span>
+        <div class="flex items-center gap-3">
+          {author?.avatar ? (
+            <img 
+              src={author.avatar} 
+              alt={`${metadata.author} 的頭像`}
+              class="w-8 h-8 rounded-full object-cover"
+            />
+          ) : (
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold">
+              {metadata.author.charAt(0).toUpperCase()}
+            </div>
+          )}
+          <span>由 {metadata.author} 撰寫</span>
+        </div>
         <span>•</span>
         <time>{formatDate(metadata.publishDate)}</time>
         <span>•</span>

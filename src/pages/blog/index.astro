@@ -1,5 +1,5 @@
 ---
-import { getAllPosts, formatDate, formatReadingTime } from '../../lib/metadata';
+import { getAllPosts, formatDate, formatReadingTime, getAuthor } from '../../lib/metadata';
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/global/Card';
 import Tag from '../../components/global/Tag';
@@ -63,9 +63,25 @@ const posts = getAllPosts();
                 </div>
                 
                 <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-500">
-                    By {post.author}
-                  </span>
+                  <div class="flex items-center gap-2">
+                    {(() => {
+                      const author = getAuthor(post.author);
+                      return author?.avatar ? (
+                        <img 
+                          src={author.avatar} 
+                          alt={`${post.author} 的頭像`}
+                          class="w-6 h-6 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                          {post.author.charAt(0).toUpperCase()}
+                        </div>
+                      );
+                    })()}
+                    <span class="text-sm text-gray-500">
+                      By {post.author}
+                    </span>
+                  </div>
                   {post.featured && (
                     <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-medium">
                       精選
