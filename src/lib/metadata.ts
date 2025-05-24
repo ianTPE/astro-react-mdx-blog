@@ -28,6 +28,32 @@ export interface Author {
 
 // Blog posts metadata
 export const blogPosts: Record<string, BlogPost> = {
+  'welcome': {
+    slug: 'welcome',
+    title: '歡迎來到我的博客',
+    description: '這是我的第一篇博客文章，介紹這個博客的技術架構和我的寫作計劃。使用 Astro、React、TypeScript 和 Tailwind CSS 打造。',
+    author: 'Ian',
+    publishDate: new Date('2024-05-24'),
+    tags: ['Astro', 'React', 'TypeScript'],
+    featured: true,
+    category: '技術',
+    readingTime: 5,
+    coverImage: '/images/blog/welcome-cover.jpg',
+    draft: false
+  },
+  'modern-frontend-toolchain': {
+    slug: 'modern-frontend-toolchain',
+    title: '現代前端開發工具鏈',
+    description: '探討現代前端開發中必備的工具鏈，包括建構工具、包管理器、開發環境配置等實用指南。',
+    author: 'Ian',
+    publishDate: new Date('2024-05-25'),
+    tags: ['Vite', 'ESBuild', '工具鏈'],
+    featured: true,
+    category: '教學',
+    readingTime: 8,
+    coverImage: '/images/blog/toolchain-cover.jpg',
+    draft: false
+  },
   'welcome-to-my-blog': {
     slug: 'welcome-to-my-blog',
     title: '歡迎來到我的 Blog！',
@@ -35,7 +61,7 @@ export const blogPosts: Record<string, BlogPost> = {
     author: 'Ian',
     publishDate: new Date('2025-01-20'),
     tags: ['Astro', 'React', 'MDX', 'TypeScript', 'TailwindCSS'],
-    featured: true,
+    featured: false,
     category: 'Tech',
     readingTime: 5,
     coverImage: '/images/blog/welcome-cover.jpg',

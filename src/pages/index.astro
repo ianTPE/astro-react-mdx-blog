@@ -1,11 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-// import { getFeaturedPosts, formatDate } from '../lib/metadata';
-// import Card from '../components/global/Card';
-// import Button from '../components/global/Button';
-// import Tag from '../components/global/Tag';
+import { getFeaturedPosts, formatDate } from '../lib/metadata';
 
-// const featuredPosts = getFeaturedPosts();
+const featuredPosts = getFeaturedPosts();
 ---
 
 <Layout title="首頁" description="歡迎來到 Ian's Blog，分享前端開發經驗、技術見解和個人成長的地方。">
@@ -72,81 +69,60 @@ import Layout from '../layouts/Layout.astro';
         </a>
       </div>
       
-      <div class="grid gap-8 md:grid-cols-2">
-        <!-- Article 1 -->
-        <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
-          <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative">
-            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-              <h3 class="text-white text-xl font-bold text-center px-4">
-                歡迎來到我的博客
-              </h3>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-              <span class="capitalize font-medium">技術</span>
-              <span>•</span>
-              <time>2024年5月24日</time>
-            </div>
-            
-            <p class="text-gray-600 mb-4">
-              這是我的第一篇博客文章，介紹這個博客的技術架構和我的寫作計劃。
-              使用 Astro、React、TypeScript 和 Tailwind CSS 打造。
-            </p>
-            
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Astro</span>
-              <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">React</span>
-              <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">TypeScript</span>
-            </div>
-            
-            <a 
-              href="/blog/welcome"
-              class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-            >
-              閱讀文章 →
-            </a>
-          </div>
-        </article>
-
-        <!-- Article 2 -->
-        <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
-          <div class="aspect-video bg-gradient-to-br from-green-500 to-blue-600 relative">
-            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-              <h3 class="text-white text-xl font-bold text-center px-4">
-                現代前端開發工具鏈
-              </h3>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-              <span class="capitalize font-medium">教學</span>
-              <span>•</span>
-              <time>2024年5月25日</time>
-            </div>
-            
-            <p class="text-gray-600 mb-4">
-              探討現代前端開發中必備的工具鏈，包括建構工具、包管理器、
-              開發環境配置等實用指南。
-            </p>
-            
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Vite</span>
-              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">ESBuild</span>
-              <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">工具鏈</span>
-            </div>
-            
-            <a 
-              href="/blog/modern-frontend-toolchain"
-              class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-            >
-              閱讀文章 →
-            </a>
-          </div>
-        </article>
-      </div>
+      {featuredPosts.length === 0 ? (
+        <div class="text-center py-12">
+          <p class="text-gray-500 text-lg">還沒有精選文章</p>
+        </div>
+      ) : (
+        <div class="grid gap-8 md:grid-cols-2">
+          {featuredPosts.map((post, index) => (
+            <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
+              <div class={`aspect-video relative ${
+                index % 2 === 0 
+                  ? 'bg-gradient-to-br from-blue-500 to-purple-600' 
+                  : 'bg-gradient-to-br from-green-500 to-blue-600'
+              }`}>
+                <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                  <h3 class="text-white text-xl font-bold text-center px-4">
+                    {post.title}
+                  </h3>
+                </div>
+              </div>
+              
+              <div class="p-6">
+                <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                  <span class="capitalize font-medium">{post.category}</span>
+                  <span>•</span>
+                  <time>{formatDate(post.publishDate)}</time>
+                </div>
+                
+                <p class="text-gray-600 mb-4">
+                  {post.description}
+                </p>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {post.tags.slice(0, 3).map((tag) => (
+                    <span class={`px-2 py-1 text-xs rounded-full ${
+                      index % 2 === 0 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : 'bg-green-100 text-green-800'
+                    }`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <a 
+                  href={`/blog/${post.slug}`}
+                  class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  閱讀文章 →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
 
     <!-- About Section -->
