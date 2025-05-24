@@ -3,30 +3,372 @@ const currentYear = new Date().getFullYear();
 
 const footerLinks = {
   主要: [
-    { name: "首頁", href: "/" },
-    { name: "博客", href: "/blog" },
-    { name: "關於", href: "/about" },
-    { name: "作品集", href: "/portfolio" }
+    { name: "首頁", href: "/", icon: "🏠" },
+    { name: "博客", href: "/blog", icon: "📝" },
+    { name: "關於", href: "/about", icon: "👋" },
+    { name: "作品集", href: "/portfolio", icon: "💼" }
   ],
   技術: [
-    { name: "React", href: "/blog/tags/react" },
-    { name: "TypeScript", href: "/blog/tags/typescript" },
-    { name: "Astro", href: "/blog/tags/astro" },
-    { name: "CSS", href: "/blog/tags/css" }
+    { name: "React", href: "/blog/tags/react", icon: "⚛️" },
+    { name: "TypeScript", href: "/blog/tags/typescript", icon: "🔷" },
+    { name: "Astro", href: "/blog/tags/astro", icon: "🚀" },
+    { name: "Next.js", href: "/blog/tags/nextjs", icon: "▲" },
+    { name: "CSS", href: "/blog/tags/css", icon: "🎨" }
   ],
   聯絡: [
-    { name: "GitHub", href: "https://github.com/yourusername", external: true },
-    { name: "Twitter", href: "https://twitter.com/yourusername", external: true },
-    { name: "LinkedIn", href: "https://linkedin.com/in/yourusername", external: true },
-    { name: "Email", href: "mailto:your.email@example.com", external: true }
+    { name: "GitHub", href: "https://github.com/yourusername", external: true, icon: "💻" },
+    { name: "Twitter", href: "https://twitter.com/yourusername", external: true, icon: "🐦" },
+    { name: "LinkedIn", href: "https://linkedin.com/in/yourusername", external: true, icon: "💼" },
+    { name: "Email", href: "mailto:your.email@example.com", external: true, icon: "📧" }
+  ],
+  資源: [
+    { name: "RSS 訂閱", href: "/rss.xml", icon: "📡" },
+    { name: "網站地圖", href: "/sitemap.xml", icon: "🗺️" },
+    { name: "隱私政策", href: "/privacy", icon: "🔒" },
+    { name: "使用條款", href: "/terms", icon: "📄" }
   ]
 };
+
+const techStack = [
+  { name: "Astro", color: "from-orange-400 to-red-500" },
+  { name: "React", color: "from-blue-400 to-cyan-500" },
+  { name: "TypeScript", color: "from-blue-600 to-purple-600" },
+  { name: "Tailwind CSS", color: "from-teal-400 to-blue-500" },
+  { name: "MDX", color: "from-yellow-400 to-orange-500" }
+];
 ---
 
-<!-- 簡化的頁腳組件 -->
-<footer class="bg-white border-t border-gray-200 py-6">
-  <div class="max-w-4xl mx-auto px-4 text-center text-gray-600 text-sm">
-    <p> 2025 Ian's Vibe Coding Blog. All rights reserved.</p>
-    <p class="mt-1">Built with Astro, React, and MDX</p>
+<!-- 現代化設計的頁腳組件 -->
+<footer class="bg-gradient-to-br from-gray-50 to-gray-100 border-t border-gray-200">
+  <!-- 主要內容區域 -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- 上半部：鏈接和訂閱 -->
+    <div class="py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <!-- 品牌區域 -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center logo-hover transition-transform duration-300">
+              <span class="text-white font-bold text-lg">I</span>
+            </div>
+            <span class="font-bold text-2xl text-gray-900">Ian's Blog</span>
+          </div>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            分享前端開發經驗、技術見解和個人成長的地方。
+            專注於現代 Web 技術和最佳實踐。 ✨
+          </p>
+          
+          <!-- 快速統計 -->
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600">15+</div>
+              <div class="text-xs text-gray-500">技術文章</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-600">5+</div>
+              <div class="text-xs text-gray-500">項目經驗</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-purple-600">2025</div>
+              <div class="text-xs text-gray-500">持續更新</div>
+            </div>
+          </div>
+          
+          <!-- 訂閱區域 -->
+          <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+            <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+              <span class="mr-2">📬</span>
+              訂閱更新
+            </h4>
+            <p class="text-sm text-gray-600 mb-3">接收最新的技術文章和開發心得</p>
+            <form class="flex" id="newsletter-form">
+              <input 
+                type="email" 
+                placeholder="輸入您的電子郵件"
+                class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+              <button 
+                type="submit"
+                class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 border border-blue-600 rounded-r-md hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+              >
+                訂閱
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- 鏈接區域 -->
+        {Object.entries(footerLinks).map(([category, links]) => (
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4 flex items-center">
+              {category === '主要' && <span class="mr-2">🧭</span>}
+              {category === '技術' && <span class="mr-2">⚡</span>}
+              {category === '聯絡' && <span class="mr-2">🤝</span>}
+              {category === '資源' && <span class="mr-2">📚</span>}
+              {category}
+            </h3>
+            <ul class="space-y-3">
+              {links.map((link) => (
+                <li>
+                  <a 
+                    href={link.href}
+                    class="text-sm text-gray-600 hover:text-blue-600 transition-colors group flex items-center"
+                    {link.external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+                  >
+                    <span class="mr-2 group-hover:scale-110 transition-transform duration-200">{link.icon}</span>
+                    {link.name}
+                    {link.external && (
+                      <svg class="ml-1 w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 技術棧展示 -->
+    <div class="py-8 border-t border-gray-200">
+      <div class="text-center mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2 flex items-center justify-center">
+          <span class="mr-2">🛠️</span>
+          使用的技術棧
+        </h3>
+        <p class="text-sm text-gray-600">這個博客使用了以下現代技術</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-3">
+        {techStack.map((tech, index) => (
+          <div 
+            class={`tech-badge px-4 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r ${tech.color} hover:scale-105 transition-all duration-200 cursor-default shadow-sm`}
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            {tech.name}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 下半部：社交媒體和版權信息 -->
+    <div class="py-8 border-t border-gray-200">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <!-- 社交媒體鏈接 -->
+        <div class="flex items-center space-x-6">
+          <span class="text-sm text-gray-600">關注我：</span>
+          <div class="flex items-center space-x-4">
+            <a 
+              href="https://github.com/yourusername" 
+              class="social-link text-gray-400 hover:text-gray-600 transition-colors" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="GitHub"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+              </svg>
+            </a>
+            <a 
+              href="https://twitter.com/yourusername" 
+              class="social-link text-gray-400 hover:text-blue-400 transition-colors" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="Twitter"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path>
+              </svg>
+            </a>
+            <a 
+              href="https://linkedin.com/in/yourusername" 
+              class="social-link text-gray-400 hover:text-blue-600 transition-colors" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="LinkedIn"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+              </svg>
+            </a>
+            <a 
+              href="/rss.xml" 
+              class="social-link text-gray-400 hover:text-orange-500 transition-colors" 
+              aria-label="RSS Feed"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795.001 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 版權和構建信息 -->
+        <div class="text-center md:text-right">
+          <div class="text-sm text-gray-600 mb-1">
+            © {currentYear} Ian's Blog. 用 ❤️ 製作
+          </div>
+          <div class="text-xs text-gray-500 flex items-center justify-center md:justify-end">
+            <span>Built with</span>
+            <a href="https://astro.build" class="mx-1 text-orange-500 hover:text-orange-600" target="_blank" rel="noopener">Astro</a>
+            <span>+</span>
+            <a href="https://reactjs.org" class="mx-1 text-blue-500 hover:text-blue-600" target="_blank" rel="noopener">React</a>
+            <span>+</span>
+            <a href="https://tailwindcss.com" class="mx-1 text-teal-500 hover:text-teal-600" target="_blank" rel="noopener">Tailwind</a>
+            <span class="ml-2">🚀</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 特別的裝飾元素 -->
+    <div class="hidden lg:block absolute top-4 right-4 opacity-10">
+      <div class="text-6xl animate-pulse">💻</div>
+    </div>
   </div>
 </footer>
+
+<style>
+  /* 技術標籤動畫 */
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .tech-badge {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+  
+  /* Logo hover 效果 */
+  .logo-hover:hover {
+    transform: rotate(6deg) scale(1.05);
+  }
+  
+  /* 訂閱按鈕 Loading 狀態 */
+  .subscribe-loading {
+    position: relative;
+    pointer-events: none;
+  }
+  
+  .subscribe-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid transparent;
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* 社交媒體 hover 效果 */
+  .social-link {
+    transition: all 0.3s ease;
+  }
+  
+  .social-link:hover {
+    transform: translateY(-2px) scale(1.1);
+  }
+</style>
+
+<script>
+  // Newsletter subscription handling
+  document.addEventListener('DOMContentLoaded', function() {
+    const newsletterForm = document.getElementById('newsletter-form');
+    
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const emailInput = this.querySelector('input[type="email"]');
+        const submitButton = this.querySelector('button[type="submit"]');
+        const email = emailInput.value;
+        
+        if (email) {
+          // 顯示 loading 狀態
+          const originalText = submitButton.textContent;
+          submitButton.textContent = '';
+          submitButton.classList.add('subscribe-loading');
+          
+          // 模擬 API 請求
+          setTimeout(() => {
+            // 恢復按鈕狀態
+            submitButton.classList.remove('subscribe-loading');
+            submitButton.textContent = originalText;
+            
+            // 顯示成功消息
+            emailInput.value = '';
+            
+            // 創建成功通知
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+            notification.innerHTML = `
+              <div class="flex items-center">
+                <span class="mr-2">✅</span>
+                <span>訂閱成功！感謝您的支持</span>
+              </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 顯示通知
+            setTimeout(() => {
+              notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // 3秒後隱藏通知
+            setTimeout(() => {
+              notification.classList.add('translate-x-full');
+              setTimeout(() => {
+                document.body.removeChild(notification);
+              }, 300);
+            }, 3000);
+            
+          }, 1500); // 模擬網路延遲
+        }
+      });
+    }
+    
+    // 技術標籤動畫
+    const techBadges = document.querySelectorAll('.tech-badge');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    });
+    
+    techBadges.forEach(badge => {
+      badge.style.animationPlayState = 'paused';
+      observer.observe(badge);
+    });
+    
+    // 隨機改變裝飾元素
+    const decorativeElement = document.querySelector('.animate-pulse');
+    if (decorativeElement) {
+      const emojis = ['💻', '🚀', '⚡', '🎨', '🔧', '📱', '🌟', '💡'];
+      
+      setInterval(() => {
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        decorativeElement.textContent = randomEmoji;
+      }, 5000);
+    }
+  });
+</script>
