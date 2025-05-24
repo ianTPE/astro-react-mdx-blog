@@ -1,3 +1,16 @@
+---
+title: '歡迎來到我的 Blog！'
+description: '這是我使用 Astro + React + MDX + TypeScript 建立的第一篇博客文章，展示了各種組件的使用方式。'
+author: 'Ian Chou'
+publishDate: 2025-01-20
+tags: ['Astro', 'React', 'MDX', 'TypeScript', 'TailwindCSS']
+featured: false
+category: 'Tech'
+readingTime: 5
+coverImage: '/images/blog/welcome-to-my-blog.webp'
+draft: false
+---
+
 import Button from '../../components/global/Button';
 import Card from '../../components/global/Card';
 import Tag from '../../components/global/Tag';
@@ -107,28 +120,26 @@ console.log("Hello, Blog World!");`}
 
 ## 📊 功能特色
 
-### 1. 無前言 (No Frontmatter) 設計
+### 1. YAML Frontmatter 設計
 
-與傳統的 Markdown 博客不同，這個系統不使用 frontmatter。所有的元數據都集中管理在 `metadata.ts` 文件中：
+這個系統現在使用 YAML frontmatter 來管理文章的元數據，每篇文章都包含完整的 metadata：
 
 <CodeBlock 
-  language="typescript" 
-  filename="src/lib/metadata.ts"
+  language="yaml" 
+  filename="article.mdx"
 >
-{`export const blogPosts: Record<string, BlogPost> = {
-  'welcome-to-my-blog': {
-    slug: 'welcome-to-my-blog',
-    title: '歡迎來到我的 Blog！',
-    description: '這是我使用 Astro + React + MDX...',
-    author: 'Ian',
-    publishDate: new Date('2025-01-20'),
-    tags: ['Astro', 'React', 'MDX', 'TypeScript'],
-    featured: true,
-    category: 'Tech',
-    readingTime: 5,
-    draft: false
-  }
-};`}
+{`---
+title: '歡迎來到我的 Blog！'
+description: '這是我使用 Astro + React + MDX + TypeScript 建立的第一篇博客文章'
+author: 'Ian Chou'
+publishDate: 2025-01-20
+tags: ['Astro', 'React', 'MDX', 'TypeScript', 'TailwindCSS']
+featured: false
+category: 'Tech'
+readingTime: 5
+coverImage: '/images/blog/welcome-to-my-blog.webp'
+draft: false
+---`}
 </CodeBlock>
 
 ### 2. TypeScript 支援

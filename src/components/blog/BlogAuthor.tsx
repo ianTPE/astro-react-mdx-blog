@@ -1,8 +1,9 @@
-import { getAuthor, formatDate, type BlogPost } from '../../lib/metadata';
+import { getAuthor, formatDate } from '../../lib/authors';
+import type { BlogPostData } from '../../lib/og-image';
 import Card from '../global/Card';
 
 interface BlogAuthorProps {
-  post: BlogPost;
+  post: BlogPostData;
   showBio?: boolean;
 }
 

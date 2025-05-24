@@ -1,11 +1,19 @@
 ---
-import { getAllPosts, formatDate, formatReadingTime, getAuthor } from '../../lib/metadata';
+import { getCollection } from 'astro:content';
 import { getPageOGConfig } from '../../lib/og-image';
+import { getAuthor, formatDate, formatReadingTime } from '../../lib/authors';
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/global/Card';
 import Tag from '../../components/global/Tag';
 
-const posts = getAllPosts();
+// 獲取所有博客文章
+const allPosts = await getCollection('blog');
+
+// 過濾非草稿文章並排序
+const posts = allPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
 const ogConfig = getPageOGConfig(
   'Blog',
   '我的博客 - 分享前端開發、技術趨勢和個人見解的地方'
@@ -32,11 +40,11 @@ const ogConfig = getPageOGConfig(
         {posts.map((post) => (
           <Card variant="elevated" padding="none" className="overflow-hidden hover:shadow-xl transition-shadow">
             <article class="h-full flex flex-col">
-              {post.coverImage && (
+              {post.data.coverImage && (
                 <div class="h-48 overflow-hidden bg-gray-100">
                   <img 
-                    src={post.coverImage}
-                    alt={`${post.title} 封面圖片`}
+                    src={post.data.coverImage}
+                    alt={`${post.data.title} 封面圖片`}
                     class="w-full h-full object-cover transition-transform hover:scale-105"
                     loading="lazy"
                   />
@@ -45,11 +53,11 @@ const ogConfig = getPageOGConfig(
               
               <div class="p-6 flex-1 flex flex-col">
                 <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                  <span class="capitalize font-medium">{post.category}</span>
+                  <span class="capitalize font-medium">{post.data.category}</span>
                   <span>•</span>
-                  <time>{formatDate(post.publishDate)}</time>
+                  <time>{formatDate(post.data.publishDate)}</time>
                   <span>•</span>
-                  <span>{formatReadingTime(post.readingTime)}</span>
+                  <span>{formatReadingTime(post.data.readingTime)}</span>
                 </div>
                 
                 <h2 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
@@ -57,44 +65,44 @@ const ogConfig = getPageOGConfig(
                     href={`/blog/${post.slug}`}
                     class="hover:text-blue-600 transition-colors"
                   >
-                    {post.title}
+                    {post.data.title}
                   </a>
                 </h2>
                 
                 <p class="text-gray-600 mb-4 flex-1 line-clamp-3">
-                  {post.description}
+                  {post.data.description}
                 </p>
                 
                 <div class="flex flex-wrap gap-2 mb-4">
-                  {post.tags.slice(0, 3).map((tag) => (
+                  {post.data.tags.slice(0, 3).map((tag) => (
                     <Tag variant="primary" size="sm">{tag}</Tag>
                   ))}
-                  {post.tags.length > 3 && (
-                    <Tag variant="default" size="sm">+{post.tags.length - 3}</Tag>
+                  {post.data.tags.length > 3 && (
+                    <Tag variant="default" size="sm">+{post.data.tags.length - 3}</Tag>
                   )}
                 </div>
                 
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
                     {(() => {
-                      const author = getAuthor(post.author);
+                      const author = getAuthor(post.data.author);
                       return author?.avatar ? (
                         <img 
                           src={author.avatar} 
-                          alt={`${post.author} 的頭像`}
+                          alt={`${post.data.author} 的頭像`}
                           class="w-6 h-6 rounded-full object-cover"
                         />
                       ) : (
                         <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                          {post.author.charAt(0).toUpperCase()}
+                          {post.data.author.charAt(0).toUpperCase()}
                         </div>
                       );
                     })()}
                     <span class="text-sm text-gray-500">
-                      By {post.author}
+                      By {post.data.author}
                     </span>
                   </div>
-                  {post.featured && (
+                  {post.data.featured && (
                     <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-medium">
                       精選
                     </span>

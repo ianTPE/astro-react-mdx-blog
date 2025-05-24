@@ -1,5 +1,19 @@
 // OG Image utility functions
-import type { BlogPost } from './metadata';
+
+// 定義博客文章數據類型（來自 Astro Content Collections）
+export interface BlogPostData {
+  title: string;
+  description: string;
+  author: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+  featured: boolean;
+  category: string;
+  readingTime: number;
+  coverImage?: string;
+  draft: boolean;
+}
 
 export interface OGImageConfig {
   title?: string;
@@ -17,7 +31,7 @@ export interface OGImageConfig {
  * Generate OG image URL for blog posts
  * Uses the post's cover image if available, otherwise falls back to default
  */
-export function getPostOGImage(post: BlogPost): string {
+export function getPostOGImage(post: BlogPostData): string {
   if (post.coverImage) {
     return post.coverImage;
   }
@@ -27,7 +41,7 @@ export function getPostOGImage(post: BlogPost): string {
 /**
  * Generate OG config for blog posts
  */
-export function getPostOGConfig(post: BlogPost): OGImageConfig {
+export function getPostOGConfig(post: BlogPostData): OGImageConfig {
   return {
     title: `${post.title} | Ian's Blog`,
     description: post.description,
@@ -60,7 +74,7 @@ export function getPageOGConfig(
 /**
  * Generate structured data for blog posts
  */
-export function generateBlogPostStructuredData(post: BlogPost, canonicalURL: string) {
+export function generateBlogPostStructuredData(post: BlogPostData, canonicalURL: string) {
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",

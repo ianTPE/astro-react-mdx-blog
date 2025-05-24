@@ -1,34 +1,31 @@
 ---
-import { getPostMetadata, formatDate, formatReadingTime, getAuthor } from '../../lib/metadata';
+import { getCollection } from 'astro:content';
 import { getPostOGConfig, generateBlogPostStructuredData } from '../../lib/og-image';
+import { getAuthor, formatDate, formatReadingTime } from '../../lib/authors';
 import Layout from '../../layouts/Layout.astro';
 import Tag from '../../components/global/Tag';
 
 export async function getStaticPaths() {
-  const posts = import.meta.glob('../../content/blog/*.mdx', { eager: true });
+  const posts = await getCollection('blog');
   
-  return Object.entries(posts).map(([path, post]) => {
-    const slug = path.split('/').pop()?.replace('.mdx', '') || '';
-    const metadata = getPostMetadata(slug);
-    
-    return {
-      params: { slug },
-      props: { post, metadata }
-    };
-  });
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
 }
 
-const { post, metadata } = Astro.props;
-const { default: Content } = post;
+const { post } = Astro.props;
+const { Content } = await post.render();
 
-if (!metadata) {
+// 檢查是否為草稿
+if (post.data.draft) {
   return Astro.redirect('/404');
 }
 
-const author = getAuthor(metadata.author);
-const ogConfig = getPostOGConfig(metadata);
+const author = getAuthor(post.data.author);
+const ogConfig = getPostOGConfig(post.data);
 const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
-const structuredData = generateBlogPostStructuredData(metadata, canonicalURL.toString());
+const structuredData = generateBlogPostStructuredData(post.data, canonicalURL.toString());
 ---
 
 <Layout 
@@ -42,7 +39,7 @@ const structuredData = generateBlogPostStructuredData(metadata, canonicalURL.toS
   section={ogConfig.section}
   tags={ogConfig.tags}
   structuredData={structuredData}
-  noIndex={metadata.draft}
+  noIndex={post.data.draft}
 >
   <main class="max-w-4xl mx-auto px-4 py-8">
     <!-- Blog Header -->
@@ -54,11 +51,11 @@ const structuredData = generateBlogPostStructuredData(metadata, canonicalURL.toS
       </div>
       
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        {metadata.title}
+        {post.data.title}
       </h1>
       
       <p class="text-xl text-gray-600 mb-6">
-        {metadata.description}
+        {post.data.description}
       </p>
       
       <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
@@ -66,27 +63,27 @@ const structuredData = generateBlogPostStructuredData(metadata, canonicalURL.toS
           {author?.avatar ? (
             <img 
               src={author.avatar} 
-              alt={`${metadata.author} 的頭像`}
+              alt={`${post.data.author} 的頭像`}
               class="w-8 h-8 rounded-full object-cover"
             />
           ) : (
             <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold">
-              {metadata.author.charAt(0).toUpperCase()}
+              {post.data.author.charAt(0).toUpperCase()}
             </div>
           )}
-          <span>由 {metadata.author} 撰寫</span>
+          <span>由 {post.data.author} 撰寫</span>
         </div>
         <span>•</span>
-        <time>{formatDate(metadata.publishDate)}</time>
+        <time>{formatDate(post.data.publishDate)}</time>
         <span>•</span>
-        <span>{formatReadingTime(metadata.readingTime)}</span>
+        <span>{formatReadingTime(post.data.readingTime)}</span>
         <span>•</span>
-        <span class="capitalize">{metadata.category}</span>
+        <span class="capitalize">{post.data.category}</span>
       </div>
       
-      {metadata.tags.length > 0 && (
+      {post.data.tags.length > 0 && (
         <div class="flex flex-wrap gap-2">
-          {metadata.tags.map((tag) => (
+          {post.data.tags.map((tag) => (
             <Tag variant="primary" size="sm">{tag}</Tag>
           ))}
         </div>
@@ -94,11 +91,11 @@ const structuredData = generateBlogPostStructuredData(metadata, canonicalURL.toS
     </header>
 
     <!-- Cover Image -->
-    {metadata.coverImage && (
+    {post.data.coverImage && (
       <div class="mb-8">
         <img 
-          src={metadata.coverImage}
-          alt={`${metadata.title} 封面圖片`}
+          src={post.data.coverImage}
+          alt={`${post.data.title} 封面圖片`}
           class="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg shadow-lg"
           loading="eager"
         />
