@@ -49,23 +49,20 @@ const featuredPosts = getFeaturedPosts();
         <div class="grid gap-8 md:grid-cols-2">
           {featuredPosts.map((post, index) => (
             <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <!-- Debug info (remove in production) -->
-              <div class="bg-yellow-100 p-2 text-xs text-gray-700">
-                Debug: coverImage = {post.coverImage || 'undefined'}
-              </div>
-              
               <div class="h-48 relative overflow-hidden bg-gray-100">
-                <!-- 測試版本：使用硬編碼路徑 -->
+                <!-- 使用圖片，如果失敗則使用漸層背景 -->
                 <img 
-                  src="/images/blog/welcome-cover.webp"
+                  src={post.coverImage}
                   alt={`${post.title} 封面圖片`}
                   class="w-full h-full object-cover"
                   loading="lazy"
                   onError={(e) => {
-                    console.log(`Failed to load hardcoded image`);
-                    console.log(`Trying: ${post.coverImage}`);
-                    e.target.style.backgroundColor = '#f3f4f6';
-                    e.target.style.border = '2px dashed #9ca3af';
+                    console.log(`Image failed to load: ${post.coverImage}`);
+                    // 隐藏失敗的圖片，顯示漸層背景
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.background = index % 2 === 0 
+                      ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' 
+                      : 'linear-gradient(135deg, #10b981, #3b82f6)';
                   }}
                 />
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
