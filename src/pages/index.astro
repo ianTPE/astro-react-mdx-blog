@@ -50,7 +50,7 @@ const featuredPosts = getFeaturedPosts();
           {featuredPosts.map((post, index) => (
             <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
               <div class="h-48 relative overflow-hidden bg-gray-100">
-                <!-- 使用圖片，如果失敗則使用漸層背景 -->
+                <!-- 純圖片，無覆蓋層 -->
                 <img 
                   src={post.coverImage}
                   alt={`${post.title} 封面圖片`}
@@ -58,21 +58,25 @@ const featuredPosts = getFeaturedPosts();
                   loading="lazy"
                   onError={(e) => {
                     console.log(`Image failed to load: ${post.coverImage}`);
-                    // 隐藏失敗的圖片，顯示漸層背景
+                    // 如果圖片失敗，顯示漸層背景
                     e.target.style.display = 'none';
-                    e.target.nextElementSibling.style.background = index % 2 === 0 
+                    e.target.parentElement.style.background = index % 2 === 0 
                       ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' 
                       : 'linear-gradient(135deg, #10b981, #3b82f6)';
                   }}
                 />
-                <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                  <h3 class="text-white text-xl font-bold text-center px-4 drop-shadow-lg">
-                    {post.title}
-                  </h3>
-                </div>
               </div>
               
               <div class="p-6">
+                <!-- 標題移到這裡 -->
+                <h3 class="text-xl font-bold text-gray-900 mb-3">
+                  <a 
+                    href={`/blog/${post.slug}`}
+                    class="hover:text-blue-600 transition-colors"
+                  >
+                    {post.title}
+                  </a>
+                </h3>
                 <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
                   <span class="capitalize font-medium">{post.category}</span>
                   <span>•</span>
