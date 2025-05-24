@@ -1,0 +1,101 @@
+// Blog metadata types and management
+export interface BlogPost {
+  slug: string;
+  title: string;
+  description: string;
+  author: string;
+  publishDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+  featured: boolean;
+  category: string;
+  readingTime: number; // minutes
+  coverImage?: string;
+  draft: boolean;
+}
+
+export interface Author {
+  name: string;
+  avatar?: string;
+  bio: string;
+  social: {
+    twitter?: string;
+    github?: string;
+    linkedin?: string;
+    website?: string;
+  };
+}
+
+// Blog posts metadata
+export const blogPosts: Record<string, BlogPost> = {
+  'welcome-to-my-blog': {
+    slug: 'welcome-to-my-blog',
+    title: '歡迎來到我的 Blog！',
+    description: '這是我使用 Astro + React + MDX + TypeScript 建立的第一篇博客文章，展示了各種組件的使用方式。',
+    author: 'Ian',
+    publishDate: new Date('2025-01-20'),
+    tags: ['Astro', 'React', 'MDX', 'TypeScript', 'TailwindCSS'],
+    featured: true,
+    category: 'Tech',
+    readingTime: 5,
+    coverImage: '/images/blog/welcome-cover.jpg',
+    draft: false
+  }
+};
+
+// Authors metadata
+export const authors: Record<string, Author> = {
+  'Ian': {
+    name: 'Ian',
+    avatar: '/images/authors/ian.jpg',
+    bio: '熱愛前端開發的工程師，專精於 React、TypeScript 和現代 Web 技術。',
+    social: {
+      github: 'https://github.com/yourusername',
+      twitter: 'https://twitter.com/yourusername',
+      website: 'https://yourwebsite.com'
+    }
+  }
+};
+
+// Utility functions
+export function getPostMetadata(slug: string): BlogPost | undefined {
+  return blogPosts[slug];
+}
+
+export function getAllPosts(): BlogPost[] {
+  return Object.values(blogPosts)
+    .filter(post => !post.draft)
+    .sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
+}
+
+export function getPostsByTag(tag: string): BlogPost[] {
+  return getAllPosts().filter(post => 
+    post.tags.some(t => t.toLowerCase() === tag.toLowerCase())
+  );
+}
+
+export function getPostsByCategory(category: string): BlogPost[] {
+  return getAllPosts().filter(post => 
+    post.category.toLowerCase() === category.toLowerCase()
+  );
+}
+
+export function getFeaturedPosts(): BlogPost[] {
+  return getAllPosts().filter(post => post.featured);
+}
+
+export function getAuthor(name: string): Author | undefined {
+  return authors[name];
+}
+
+export function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('zh-TW', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
+}
+
+export function formatReadingTime(minutes: number): string {
+  return `${minutes} 分鐘閱讀`;
+}

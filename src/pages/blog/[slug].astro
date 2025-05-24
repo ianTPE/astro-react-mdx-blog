@@ -1,0 +1,88 @@
+---
+import { getPostMetadata, formatDate, formatReadingTime } from '../../lib/metadata';
+import Layout from '../../layouts/Layout.astro';
+import Tag from '../../components/global/Tag';
+
+export async function getStaticPaths() {
+  const posts = import.meta.glob('../../content/blog/*.mdx', { eager: true });
+  
+  return Object.entries(posts).map(([path, post]) => {
+    const slug = path.split('/').pop()?.replace('.mdx', '') || '';
+    const metadata = getPostMetadata(slug);
+    
+    return {
+      params: { slug },
+      props: { post, metadata }
+    };
+  });
+}
+
+const { post, metadata } = Astro.props;
+const { default: Content } = post;
+
+if (!metadata) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={metadata.title}>
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Blog Header -->
+    <header class="mb-8">
+      <div class="mb-4">
+        <a href="/blog" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+          ← 返回博客列表
+        </a>
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        {metadata.title}
+      </h1>
+      
+      <p class="text-xl text-gray-600 mb-6">
+        {metadata.description}
+      </p>
+      
+      <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
+        <span>由 {metadata.author} 撰寫</span>
+        <span>•</span>
+        <time>{formatDate(metadata.publishDate)}</time>
+        <span>•</span>
+        <span>{formatReadingTime(metadata.readingTime)}</span>
+        <span>•</span>
+        <span class="capitalize">{metadata.category}</span>
+      </div>
+      
+      {metadata.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {metadata.tags.map((tag) => (
+            <Tag variant="primary" size="sm">{tag}</Tag>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Blog Content -->
+    <article class="prose prose-lg max-w-none">
+      <Content />
+    </article>
+
+    <!-- Navigation -->
+    <footer class="mt-12 pt-8 border-t border-gray-200">
+      <div class="text-center">
+        <a 
+          href="/blog" 
+          class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          查看更多文章
+        </a>
+      </div>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .prose :global(.not-prose) {
+    all: revert;
+  }
+</style>

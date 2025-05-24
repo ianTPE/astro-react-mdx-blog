@@ -1,0 +1,79 @@
+---
+// 範例：創建一個使用 Typography 的文章頁面
+---
+
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typography 範例</title>
+  </head>
+  <body>
+    <!-- 使用 prose 類別自動美化文章排版 -->
+    <article class="prose prose-lg mx-auto p-8">
+      <h1>這是文章標題</h1>
+      <p class="lead">這是引言段落，會有特殊的樣式。</p>
+      
+      <h2>次標題</h2>
+      <p>這是一般段落文字。Typography 插件會自動為文章內容提供美觀的排版，包括：</p>
+      
+      <ul>
+        <li>自動的行高和字距</li>
+        <li>美觀的標題樣式</li>
+        <li>適當的段落間距</li>
+        <li>列表項目樣式</li>
+      </ul>
+      
+      <blockquote>
+        <p>這是一個引用區塊，會有特殊的樣式處理。</p>
+      </blockquote>
+      
+      <pre><code>// 程式碼區塊也會有特殊樣式
+const example = "Hello World";
+console.log(example);</code></pre>
+    </article>
+
+    <!-- Forms 插件範例 -->
+    <form class="max-w-md mx-auto mt-8 p-6 bg-gray-50 rounded-lg">
+      <h3 class="text-lg font-semibold mb-4">表單範例</h3>
+      
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-2">姓名</label>
+        <input type="text" 
+               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+               placeholder="請輸入姓名">
+      </div>
+      
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-2">電子郵件</label>
+        <input type="email" 
+               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+               placeholder="請輸入電子郵件">
+      </div>
+      
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-2">訊息</label>
+        <textarea class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                  rows="4" 
+                  placeholder="請輸入訊息"></textarea>
+      </div>
+      
+      <button type="submit" 
+              class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        送出
+      </button>
+    </form>
+
+    <!-- Aspect Ratio 插件範例 -->
+    <div class="max-w-2xl mx-auto mt-8">
+      <h3 class="text-lg font-semibold mb-4">響應式長寬比範例</h3>
+      <div class="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+        <p class="text-gray-500">16:9 比例的容器</p>
+      </div>
+      
+      <div class="mt-4 aspect-square bg-blue-100 rounded-lg flex items-center justify-center">
+        <p class="text-blue-600">1:1 比例的容器</p>
+      </div>
+    </div>
+  </body>
+</html>

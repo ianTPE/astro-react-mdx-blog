@@ -1,0 +1,157 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getFeaturedPosts, formatDate } from '../lib/metadata';
+import Card from '../components/global/Card';
+import Button from '../components/global/Button';
+import Tag from '../components/global/Tag';
+
+const featuredPosts = getFeaturedPosts();
+---
+
+<Layout title="首頁">
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <section class="text-center py-16">
+      <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+        歡迎來到我的
+        <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          技術博客
+        </span>
+      </h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        分享前端開發經驗、技術見解和個人成長的地方。
+        使用 Astro + React + MDX + TypeScript 打造的現代博客。
+      </p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a href="/blog">
+          <Button variant="primary" size="lg">
+            瀏覽博客
+          </Button>
+        </a>
+        <a href="/blog/welcome-to-my-blog">
+          <Button variant="outline" size="lg">
+            閱讀第一篇文章
+          </Button>
+        </a>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="py-16">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+        技術棧
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+          <div class="text-4xl mb-4">⚡</div>
+          <h3 class="font-bold text-lg mb-2">Astro</h3>
+          <p class="text-sm text-gray-600">現代靜態網站生成器</p>
+        </Card>
+        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+          <div class="text-4xl mb-4">⚛️</div>
+          <h3 class="font-bold text-lg mb-2">React</h3>
+          <p class="text-sm text-gray-600">動態 UI 組件</p>
+        </Card>
+        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+          <div class="text-4xl mb-4">📝</div>
+          <h3 class="font-bold text-lg mb-2">MDX</h3>
+          <p class="text-sm text-gray-600">Markdown + JSX</p>
+        </Card>
+        <Card variant="bordered" padding="md" className="text-center hover:shadow-lg transition-shadow">
+          <div class="text-4xl mb-4">🎨</div>
+          <h3 class="font-bold text-lg mb-2">Tailwind</h3>
+          <p class="text-sm text-gray-600">實用的 CSS 框架</p>
+        </Card>
+      </div>
+    </section>
+
+    <!-- Featured Posts -->
+    {featuredPosts.length > 0 && (
+      <section class="py-16">
+        <div class="flex items-center justify-between mb-12">
+          <h2 class="text-3xl font-bold text-gray-900">
+            精選文章
+          </h2>
+          <a href="/blog">
+            <Button variant="outline">
+              查看全部
+            </Button>
+          </a>
+        </div>
+        
+        <div class="grid gap-8 md:grid-cols-2">
+          {featuredPosts.slice(0, 2).map((post) => (
+            <Card variant="elevated" padding="none" className="overflow-hidden hover:shadow-xl transition-shadow">
+              <article class="h-full">
+                <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative">
+                  <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                    <h3 class="text-white text-xl font-bold text-center px-4">
+                      {post.title}
+                    </h3>
+                  </div>
+                </div>
+                
+                <div class="p-6">
+                  <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                    <span class="capitalize font-medium">{post.category}</span>
+                    <span>•</span>
+                    <time>{formatDate(post.publishDate)}</time>
+                  </div>
+                  
+                  <p class="text-gray-600 mb-4 line-clamp-3">
+                    {post.description}
+                  </p>
+                  
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {post.tags.slice(0, 3).map((tag) => (
+                      <Tag variant="primary" size="sm">{tag}</Tag>
+                    ))}
+                  </div>
+                  
+                  <a 
+                    href={`/blog/${post.slug}`}
+                    class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                  >
+                    閱讀文章 →
+                  </a>
+                </div>
+              </article>
+            </Card>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- About -->
+    <section class="py-16">
+      <Card variant="bordered" padding="lg" className="bg-gradient-to-r from-gray-50 to-blue-50">
+        <div class="text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            I
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            關於我
+          </h2>
+          <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+            我是 Ian，一名熱愛前端開發的工程師。專精於 React、TypeScript 和現代 Web 技術。
+            喜歡分享技術知識和探索新的開發工具。
+          </p>
+          <div class="flex gap-4 justify-center flex-wrap">
+            <a href="#" class="text-blue-600 hover:text-blue-800">GitHub</a>
+            <a href="#" class="text-blue-600 hover:text-blue-800">Twitter</a>
+            <a href="#" class="text-blue-600 hover:text-blue-800">LinkedIn</a>
+          </div>
+        </div>
+      </Card>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

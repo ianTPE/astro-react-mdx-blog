@@ -1,0 +1,176 @@
+import Button from '../../components/global/Button';
+import Card from '../../components/global/Card';
+import Tag from '../../components/global/Tag';
+import CodeBlock from '../../components/blog/CodeBlock';
+import InfoBox from '../../components/blog/InfoBox';
+
+# 歡迎來到我的 Blog！
+
+大家好！我是 Ian，這是我使用 **Astro + React + MDX + TypeScript** 建立的第一篇博客文章。在這篇文章中，我會展示這個博客系統的各種功能和組件。
+
+## 🚀 技術棧
+
+這個博客網站使用了以下現代技術：
+
+<div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6 not-prose">
+  <Card padding="sm" variant="bordered" className="text-center">
+    <div className="text-2xl mb-2">⚡</div>
+    <div className="font-semibold">Astro</div>
+    <div className="text-sm text-gray-600">靜態網站生成器</div>
+  </Card>
+  <Card padding="sm" variant="bordered" className="text-center">
+    <div className="text-2xl mb-2">⚛️</div>
+    <div className="font-semibold">React</div>
+    <div className="text-sm text-gray-600">UI 組件庫</div>
+  </Card>
+  <Card padding="sm" variant="bordered" className="text-center">
+    <div className="text-2xl mb-2">📝</div>
+    <div className="font-semibold">MDX</div>
+    <div className="text-sm text-gray-600">Markdown + JSX</div>
+  </Card>
+  <Card padding="sm" variant="bordered" className="text-center">
+    <div className="text-2xl mb-2">🎨</div>
+    <div className="font-semibold">Tailwind</div>
+    <div className="text-sm text-gray-600">CSS 框架</div>
+  </Card>
+</div>
+
+## 🧩 組件展示
+
+### Global 組件
+
+我們可以在 MDX 中使用各種 React 組件！這些是全局組件，可以在整個網站中使用：
+
+#### 按鈕組件
+
+<div className="flex gap-4 flex-wrap my-6 not-prose">
+  <Button variant="primary">主要按鈕</Button>
+  <Button variant="secondary">次要按鈕</Button>
+  <Button variant="outline">邊框按鈕</Button>
+  <Button variant="ghost">幽靈按鈕</Button>
+</div>
+
+#### 標籤組件
+
+<div className="flex gap-2 flex-wrap my-6 not-prose">
+  <Tag variant="primary">React</Tag>
+  <Tag variant="secondary">TypeScript</Tag>
+  <Tag variant="success">Astro</Tag>
+  <Tag variant="warning">MDX</Tag>
+  <Tag variant="danger">TailwindCSS</Tag>
+</div>
+
+### Blog 專用組件
+
+#### 信息框組件
+
+<InfoBox type="info" title="資訊提示">
+這是一個資訊框，可以用來顯示重要的提示信息。
+</InfoBox>
+
+<InfoBox type="warning" title="注意事項">
+這是一個警告框，用來提醒讀者注意某些重要事項。
+</InfoBox>
+
+<InfoBox type="success" title="成功提示">
+這是一個成功提示框，用來顯示操作成功的信息。
+</InfoBox>
+
+<InfoBox type="tip" title="小貼士">
+這是一個小貼士框，可以分享一些有用的技巧和建議。
+</InfoBox>
+
+#### 程式碼區塊
+
+<CodeBlock 
+  language="typescript" 
+  filename="example.ts"
+  showLineNumbers={true}
+>
+{`// TypeScript 範例
+interface BlogPost {
+  title: string;
+  author: string;
+  publishDate: Date;
+  tags: string[];
+}
+
+const post: BlogPost = {
+  title: "歡迎來到我的 Blog！",
+  author: "Ian",
+  publishDate: new Date(),
+  tags: ["Astro", "React", "MDX"]
+};
+
+console.log("Hello, Blog World!");`}
+</CodeBlock>
+
+## 📊 功能特色
+
+### 1. 無前言 (No Frontmatter) 設計
+
+與傳統的 Markdown 博客不同，這個系統不使用 frontmatter。所有的元數據都集中管理在 `metadata.ts` 文件中：
+
+<CodeBlock 
+  language="typescript" 
+  filename="src/lib/metadata.ts"
+>
+{`export const blogPosts: Record<string, BlogPost> = {
+  'welcome-to-my-blog': {
+    slug: 'welcome-to-my-blog',
+    title: '歡迎來到我的 Blog！',
+    description: '這是我使用 Astro + React + MDX...',
+    author: 'Ian',
+    publishDate: new Date('2025-01-20'),
+    tags: ['Astro', 'React', 'MDX', 'TypeScript'],
+    featured: true,
+    category: 'Tech',
+    readingTime: 5,
+    draft: false
+  }
+};`}
+</CodeBlock>
+
+### 2. TypeScript 支援
+
+完整的 TypeScript 支援，包括：
+- 型別安全的組件
+- 介面定義
+- 自動完成和錯誤檢查
+
+### 3. 響應式設計
+
+使用 Tailwind CSS 建立的響應式設計，在各種設備上都有良好的體驗。
+
+## 🎯 下一步計劃
+
+<InfoBox type="tip" title="即將推出的功能">
+<ul>
+  <li>搜索功能</li>
+  <li>評論系統</li>
+  <li>RSS 訂閱</li>
+  <li>深色模式</li>
+  <li>更多互動組件</li>
+</ul>
+</InfoBox>
+
+## 🤝 參與貢獻
+
+如果你對這個博客系統有任何建議或想要貢獻代碼，歡迎在 GitHub 上聯繫我！
+
+<div className="flex gap-4 my-8 not-prose">
+  <Button variant="primary">
+    <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-white no-underline">
+      查看 GitHub
+    </a>
+  </Button>
+  <Button variant="outline">
+    <a href="mailto:your@email.com" className="text-gray-700 no-underline">
+      聯繫我
+    </a>
+  </Button>
+</div>
+
+---
+
+感謝你閱讀我的第一篇博客文章！我會持續分享更多關於前端開發、技術趨勢和個人見解的內容。記得關注更新喔！ 🚀
