@@ -12,7 +12,7 @@ export default defineConfig({
   integrations: [
     react(), 
     mdx({
-      syntaxHighlight: 'shiki', // 使用內建的 Shiki 語法高亮
+      syntaxHighlight: false, // 關閉內建，使用自定義組件
       remarkPlugins: [],
       rehypePlugins: [],
       // 配置 MDX 組件
@@ -20,6 +20,6 @@ export default defineConfig({
     })
   ],
   markdown: {
-    syntaxHighlight: 'shiki', // 確保 Markdown 也使用內建高亮
+    syntaxHighlight: false, // 讓 MDX 組件處理語法高亮
   }
 });
