@@ -12,6 +12,41 @@ draft: false
 ---
 
 import { CodeBlock, AdvancedCodeBlock } from '../../components/MDXComponents';
+import TypeScriptDemo from '../../components/blog/demos/TypeScriptDemo';
+import ReactHookDemo from '../../components/blog/demos/ReactHookDemo';
+import BashDemo from '../../components/blog/demos/BashDemo';
+import JsonDemo from '../../components/blog/demos/JsonDemo';
+
+export const components = {
+  pre: ({ children, ...props }) => {
+    // 檢查是否為代碼區塊
+    if (children?.props?.className && typeof children.props.children === 'string') {
+      const language = children.props.className.replace('language-', '');
+      const code = children.props.children;
+      
+      return (
+        <CodeBlock language={language} showLineNumbers={true}>
+          {code}
+        </CodeBlock>
+      );
+    }
+    
+    // 如果children是字符串，直接使用
+    if (typeof children === 'string') {
+      return (
+        <CodeBlock language="text" showLineNumbers={false}>
+          {children}
+        </CodeBlock>
+      );
+    }
+    
+    // 普通的 pre 標籤
+    return <pre {...props}>{children}</pre>;
+  },
+  
+  CodeBlock,
+  AdvancedCodeBlock,
+};
 
 # 代碼高亮示範
 
@@ -65,128 +100,19 @@ def quick_sort(arr):
 
 ### 帶檔案名的代碼區塊
 
-<CodeBlock 
-  language="typescript" 
-  filename="utils/api.ts"
-  showLineNumbers={true}
->
-{`interface ApiResponse<T> {
-  data: T;
-  status: number;
-  message: string;
-}
-
-class ApiClient {
-  private baseUrl: string;
-  
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-  
-  async get<T>(endpoint: string): Promise<ApiResponse<T>> {
-    const response = await fetch(\`\${this.baseUrl}\${endpoint}\`);
-    const data = await response.json();
-    
-    return {
-      data,
-      status: response.status,
-      message: response.ok ? 'Success' : 'Error'
-    };
-  }
-}`}
-</CodeBlock>
+<TypeScriptDemo />
 
 ### 進階代碼區塊 - 多種主題
 
-<AdvancedCodeBlock 
-  language="jsx" 
-  title="React Hook 範例"
-  theme="dracula"
-  showLineNumbers={true}
-  highlightLines={[8, 12, 16]}
->
-{`import { useState, useEffect } from 'react';
-
-function useCounter(initialValue = 0) {
-  const [count, setCount] = useState(initialValue);
-  
-  const increment = () => setCount(prev => prev + 1);
-  const decrement = () => setCount(prev => prev - 1);
-  const reset = () => setCount(initialValue);
-  
-  useEffect(() => {
-    console.log('Count changed:', count);
-  }, [count]);
-  
-  return {
-    count,
-    increment,
-    decrement,
-    reset
-  };
-}
-
-export default function Counter() {
-  const { count, increment, decrement, reset } = useCounter(0);
-  
-  return (
-    <div className="flex items-center space-x-4">
-      <button onClick={decrement}>-</button>
-      <span>Count: {count}</span>
-      <button onClick={increment}>+</button>
-      <button onClick={reset}>Reset</button>
-    </div>
-  );
-}`}
-</AdvancedCodeBlock>
+<ReactHookDemo />
 
 ### GitHub 主題
 
-<AdvancedCodeBlock 
-  language="bash" 
-  title="終端機指令"
-  theme="github"
-  showLineNumbers={false}
->
-{`# 安裝依賴
-npm install prism-react-renderer
-
-# 啟動開發伺服器
-npm run dev
-
-# 建構生產版本
-npm run build
-
-# 預覽建構結果
-npm run preview`}
-</AdvancedCodeBlock>
+<BashDemo />
 
 ### Night Owl 主題
 
-<AdvancedCodeBlock 
-  language="json" 
-  filename="package.json"
-  theme="nightOwl"
-  showLineNumbers={true}
->
-{`{
-  "name": "astro-react-mdx-blog",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/react": "^4.3.0",
-    "prism-react-renderer": "^2.3.1",
-    "react": "^19.1.0",
-    "tailwindcss": "^4.1.7"
-  }
-}`}
-</AdvancedCodeBlock>
+<JsonDemo />
 
 ## 支援的主題
 

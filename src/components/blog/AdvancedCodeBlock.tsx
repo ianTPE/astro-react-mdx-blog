@@ -32,7 +32,15 @@ export default function AdvancedCodeBlock({
 }: AdvancedCodeBlockProps) {
   const [copied, setCopied] = useState(false);
   
-  const codeText = typeof children === 'string' ? children.trim() : String(children).trim();
+  // 確保 children 是字符串
+  let codeText: string;
+  if (typeof children === 'string') {
+    codeText = children.trim();
+  } else if (children && typeof children === 'object' && 'toString' in children) {
+    codeText = String(children).trim();
+  } else {
+    codeText = String(children || '').trim();
+  }
   
   const copyToClipboard = async () => {
     try {

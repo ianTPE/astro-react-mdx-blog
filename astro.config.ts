@@ -13,6 +13,13 @@ export default defineConfig({
     react(), 
     mdx({
       syntaxHighlight: false, // 關閉內建的語法高亮，使用 prism-react-renderer
+      remarkPlugins: [],
+      rehypePlugins: [],
+      // 配置 MDX 組件
+      optimize: true,
     })
-  ]
+  ],
+  markdown: {
+    syntaxHighlight: false, // 確保 Markdown 也不使用內建高亮
+  }
 });
