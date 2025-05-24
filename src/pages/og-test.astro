@@ -1,9 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { getAllPosts } from '../lib/metadata';
 import { getPageOGConfig, getPostOGConfig } from '../lib/og-image';
 
-const posts = getAllPosts();
+// 獲取所有博客文章
+const allPosts = await getCollection('blog');
+
+// 過濾非草稿文章並排序
+const posts = allPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
 const ogConfig = getPageOGConfig(
   'OG Image 測試',
   '測試 Open Graph 圖片和 Meta Tags 是否正常工作'
@@ -44,23 +51,23 @@ const ogConfig = getPageOGConfig(
       <h2 class="text-2xl font-bold text-gray-900 mb-4">博客文章 OG Images</h2>
       <div class="grid gap-6">
         {posts.map((post) => {
-          const postOGConfig = getPostOGConfig(post);
+          const postOGConfig = getPostOGConfig(post.data);
           return (
             <div class="bg-gray-50 rounded-lg p-6">
               <div class="flex items-start">
                 <img 
                   src={postOGConfig.image} 
-                  alt={`${post.title} OG Image`}
+                  alt={`${post.data.title} OG Image`}
                   class="w-32 h-20 object-cover rounded border mr-4 flex-shrink-0"
                   onerror="this.style.border='2px dashed #ef4444'; this.style.backgroundColor='#fef2f2';"
                 />
                 <div class="flex-1">
-                  <h3 class="font-bold text-lg mb-2">{post.title}</h3>
+                  <h3 class="font-bold text-lg mb-2">{post.data.title}</h3>
                   <p class="text-sm text-gray-600 mb-2">
                     <strong>OG Image:</strong> {postOGConfig.image}
                   </p>
                   <p class="text-sm text-gray-600 mb-2">
-                    <strong>描述:</strong> {post.description}
+                    <strong>描述:</strong> {post.data.description}
                   </p>
                   <div class="flex gap-2">
                     <a 

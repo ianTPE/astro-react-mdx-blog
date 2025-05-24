@@ -1,9 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { getFeaturedPosts, formatDate } from '../lib/metadata';
+import { formatDate } from '../lib/authors';
 import { getPageOGConfig } from '../lib/og-image';
 
-const featuredPosts = getFeaturedPosts();
+// 獲取所有博客文章
+const allPosts = await getCollection('blog');
+
+// 獲取精選文章（featured posts）
+const featuredPosts = allPosts
+  .filter(post => !post.data.draft && post.data.featured)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
 const ogConfig = getPageOGConfig(
   '首頁',
   '歡迎來到 Ian\'s Blog，分享前端開發經驗、技術見解和個人成長的地方。'
@@ -57,12 +65,12 @@ const ogConfig = getPageOGConfig(
               <div class="h-48 relative overflow-hidden bg-gray-100">
                 <!-- 純圖片，無覆蓋層 -->
                 <img 
-                  src={post.coverImage}
-                  alt={`${post.title} 封面圖片`}
+                  src={post.data.coverImage}
+                  alt={`${post.data.title} 封面圖片`}
                   class="w-full h-full object-cover"
                   loading="lazy"
                   onError={(e) => {
-                    console.log(`Image failed to load: ${post.coverImage}`);
+                    console.log(`Image failed to load: ${post.data.coverImage}`);
                     // 如果圖片失敗，顯示漸層背景
                     e.target.style.display = 'none';
                     e.target.parentElement.style.background = index % 2 === 0 
@@ -79,21 +87,21 @@ const ogConfig = getPageOGConfig(
                     href={`/blog/${post.slug}`}
                     class="hover:text-blue-600 transition-colors"
                   >
-                    {post.title}
+                    {post.data.title}
                   </a>
                 </h3>
                 <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                  <span class="capitalize font-medium">{post.category}</span>
+                  <span class="capitalize font-medium">{post.data.category}</span>
                   <span>•</span>
-                  <time>{formatDate(post.publishDate)}</time>
+                  <time>{formatDate(post.data.publishDate)}</time>
                 </div>
                 
                 <p class="text-gray-600 mb-4">
-                  {post.description}
+                  {post.data.description}
                 </p>
                 
                 <div class="flex flex-wrap gap-2 mb-4">
-                  {post.tags.slice(0, 3).map((tag) => (
+                  {post.data.tags.slice(0, 3).map((tag) => (
                     <span class={`px-2 py-1 text-xs rounded-full ${
                       index % 2 === 0 
                         ? 'bg-blue-100 text-blue-800' 
