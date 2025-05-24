@@ -6,7 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 import Tag from '../../components/global/Tag';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('posts');
   
   return posts.map((post) => ({
     params: { slug: post.slug },
@@ -41,12 +41,12 @@ const structuredData = generateBlogPostStructuredData(post.data, canonicalURL.to
   structuredData={structuredData}
   noIndex={post.data.draft}
 >
-  <main class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Blog Header -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Post Header -->
     <header class="mb-8">
       <div class="mb-4">
-        <a href="/blog" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-          ← 返回博客列表
+        <a href="/posts" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+          ← 返回文章列表
         </a>
       </div>
       
@@ -102,9 +102,9 @@ const structuredData = generateBlogPostStructuredData(post.data, canonicalURL.to
       </div>
     )}
 
-    <!-- Blog Content -->
-    <article class="prose prose-lg max-w-none">
-      <!-- 純 Markdown 文件不會使用組件，MDX 文件才會使用 -->
+    <!-- Post Content with enhanced styling for interactive components -->
+    <article class="prose prose-lg max-w-none prose-blue">
+      <!-- 💡 這裡是關鍵：MDX 會自動處理本地組件的導入 -->
       <Content />
     </article>
 
@@ -112,7 +112,7 @@ const structuredData = generateBlogPostStructuredData(post.data, canonicalURL.to
     <footer class="mt-12 pt-8 border-t border-gray-200">
       <div class="text-center">
         <a 
-          href="/blog" 
+          href="/posts" 
           class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           查看更多文章
@@ -128,6 +128,12 @@ const structuredData = generateBlogPostStructuredData(post.data, canonicalURL.to
 </script>
 
 <style>
+  /* 為交互式組件提供更好的樣式 */
+  .prose :global(.component-container) {
+    all: revert;
+    margin: 2rem 0;
+  }
+  
   /* 確保組件在 prose 中正確顯示 */
   .prose :global(div[class*="grid"]) {
     all: revert;

@@ -1,0 +1,237 @@
+---
+title: '數據可視化示範 - 本地組件架構'
+description: '展示如何為每個文章創建專屬的 React 組件'
+author: 'Ian Chou'
+publishDate: 2025-05-25
+tags: ['React', 'Data Visualization', 'MDX', 'Components']
+featured: true
+category: '技術示範'
+readingTime: 15
+coverImage: '/images/blog/data-viz-cover.webp'
+draft: false
+---
+
+import { 
+  CustomChart, 
+  InteractiveTable, 
+  StatCard, 
+  DataViewSwitcher 
+} from './data-visualization-demo/components';
+
+export const sampleData = [
+  { label: 'React', value: 85, color: '#61DAFB' },
+  { label: 'Vue', value: 72, color: '#4FC08D' },
+  { label: 'Angular', value: 65, color: '#DD0031' },
+  { label: 'Svelte', value: 45, color: '#FF3E00' },
+  { label: 'Solid', value: 28, color: '#2C4F7C' }
+];
+
+export const tableData = [
+  { id: 1, name: 'React 專案', value: 1250, category: '前端', status: 'active' },
+  { id: 2, name: 'Vue 應用', value: 890, category: '前端', status: 'active' },
+  { id: 3, name: 'Node.js API', value: 2100, category: '後端', status: 'pending' },
+  { id: 4, name: 'Python 分析', value: 750, category: '數據', status: 'inactive' },
+  { id: 5, name: 'GraphQL 服務', value: 1680, category: '後端', status: 'active' },
+  { id: 6, name: 'MongoDB 集群', value: 3200, category: '數據庫', status: 'active' },
+  { id: 7, name: 'Redis 緩存', value: 420, category: '數據庫', status: 'pending' },
+  { id: 8, name: 'Kubernetes 部署', value: 2850, category: '基礎設施', status: 'active' }
+];
+
+# 數據可視化示範
+
+這篇文章展示了**本地組件架構**的強大功能！每個文章都有自己專屬的 React 組件文件夾。
+
+## 🏗️ 文件結構
+
+```text
+/content
+  /posts
+    /data-visualization-demo
+      content.mdx           # 👈 這個文件
+      /components
+        index.ts            # Barrel 導出文件
+        CustomChart.tsx     # 自定義圖表
+        InteractiveTable.tsx # 交互式表格
+        StatCard.tsx        # 統計卡片
+        DataViewSwitcher.tsx # 視圖切換器
+```
+
+## 📊 關鍵指標
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
+  <StatCard 
+    title="總用戶數" 
+    value={12584} 
+    previousValue={11250}
+    unit="人"
+    icon="👥" 
+    color="blue"
+  />
+  <StatCard 
+    title="月收入" 
+    value={85420} 
+    previousValue={78900}
+    unit="元"
+    icon="💰" 
+    color="green"
+  />
+  <StatCard 
+    title="訂單數" 
+    value={3247} 
+    previousValue={3580}
+    unit="筆"
+    icon="📦" 
+    color="yellow"
+  />
+  <StatCard 
+    title="滿意度" 
+    value={94} 
+    previousValue={91}
+    unit="%"
+    icon="⭐" 
+    color="purple"
+  />
+</div>
+
+## 📈 前端框架使用統計
+
+### 長條圖視圖
+
+<CustomChart 
+  data={sampleData} 
+  title="2025 年前端框架使用率" 
+  type="bar" 
+/>
+
+### 圓餅圖視圖
+
+<CustomChart 
+  data={sampleData} 
+  title="2025 年前端框架市佔率" 
+  type="pie" 
+/>
+
+## 🎛️ 數據控制面板
+
+<DataViewSwitcher data={tableData} />
+
+## 📋 專案數據表格
+
+<InteractiveTable 
+  data={tableData} 
+  title="專案管理儀表板" 
+/>
+
+## 💡 技術特色
+
+### ✨ 組件隔離
+每個文章都有自己的組件文件夾，實現完美的**關注點分離**：
+
+```typescript
+// 在 MDX 中輕鬆導入本地組件
+import { CustomChart, InteractiveTable } from './components';
+```
+
+### 🔄 可重用性
+組件可以在同一篇文章中多次使用，傳入不同的 props：
+
+```jsx
+<CustomChart data={data1} type="bar" />
+<CustomChart data={data2} type="pie" />
+```
+
+### 🎨 高度客製化
+每個組件都針對特定文章的需求進行客製化：
+
+- **動畫效果**：進入動畫、數值計數動畫
+- **交互功能**：排序、篩選、搜尋
+- **視覺設計**：配色、樣式完全可控
+- **數據處理**：本地數據計算和轉換
+
+### ⚡ 性能優化
+- **按需載入**：只載入當前文章需要的組件
+- **靜態生成**：Astro 的靜態生成優勢
+- **React 島嶼**：只有交互部分使用 React
+
+## 🛠️ 實作細節
+
+### 組件架構
+
+```typescript
+// 組件接口設計
+interface ComponentProps {
+  data: any[];           // 數據
+  title?: string;        // 標題
+  config?: object;       // 配置選項
+  onAction?: Function;   // 回調函數
+}
+```
+
+### 樣式系統
+
+```css
+/* 使用 Tailwind CSS 實現響應式設計 */
+.component {
+  @apply bg-white p-6 rounded-lg shadow-lg;
+  @apply hover:shadow-xl transition-all duration-300;
+}
+```
+
+### 狀態管理
+
+```javascript
+// 使用 React Hooks 管理本地狀態
+const [data, setData] = useState(initialData);
+const [view, setView] = useState('default');
+const [filters, setFilters] = useState({});
+```
+
+## 🎯 使用場景
+
+這種架構特別適合：
+
+1. **📊 數據密集型文章** - 需要複雜圖表和交互
+2. **🔧 技術教學文章** - 需要示例組件和演示
+3. **📱 產品展示文章** - 需要交互式原型
+4. **📈 報告類文章** - 需要數據可視化
+
+## 🚀 擴展可能性
+
+### 更多組件類型
+- 🗺️ **地圖組件** - 顯示地理數據
+- 📊 **高級圖表** - 使用 D3.js 或 Chart.js
+- 🎮 **遊戲組件** - 互動式教學遊戲
+- 📝 **表單組件** - 數據收集和驗證
+
+### 數據源整合
+```typescript
+// 可以從外部 API 獲取數據
+useEffect(() => {
+  fetchData('/api/dashboard').then(setData);
+}, []);
+```
+
+### 主題系統
+```typescript
+// 支援多種視覺主題
+const themes = {
+  light: { bg: 'white', text: 'black' },
+  dark: { bg: 'gray-900', text: 'white' },
+  colorful: { /* 彩色主題 */ }
+};
+```
+
+## 🎉 總結
+
+**本地組件架構**為 MDX 文章帶來了：
+
+- ✅ **完全的客製化控制**
+- ✅ **出色的組織結構**
+- ✅ **高效的開發體驗**
+- ✅ **無限的擴展可能**
+
+這種方式讓每篇文章都可以成為一個**獨特的交互式體驗**！
+
+---
+
+*這個示例展示了文章專屬組件的強大功能。你可以為每篇文章創建完全不同的組件來滿足特定需求。*

@@ -10,16 +10,21 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
   integrations: [
-    react(), 
+    react(), // React 支援
     mdx({
-      syntaxHighlight: 'shiki', // 使用內建的 Shiki 語法高亮
+      // 為本地組件架構的 MDX 配置
+      syntaxHighlight: 'shiki',
       remarkPlugins: [],
       rehypePlugins: [],
-      // 配置 MDX 組件
       optimize: true,
     })
   ],
   markdown: {
-    syntaxHighlight: 'shiki', // 確保 Markdown 也使用內建高亮
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      theme: 'github-dark',
+      langs: [],
+      wrap: true
+    }
   }
 });
