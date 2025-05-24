@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAllPosts } from '../lib/metadata';
+import { getPageOGConfig, getPostOGConfig } from '../lib/og-image';
+
+const posts = getAllPosts();
+const ogConfig = getPageOGConfig(
+  'OG Image 測試',
+  '測試 Open Graph 圖片和 Meta Tags 是否正常工作'
+);
+---
+
+<Layout title={ogConfig.title} description={ogConfig.description} image={ogConfig.image}>
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        OG Image 測試工具
+      </h1>
+      <p class="text-xl text-gray-600">
+        測試 Open Graph 圖片和 Meta Tags 是否正常工作
+      </p>
+    </header>
+
+    <!-- Default OG Image Test -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">默認 OG Image</h2>
+      <div class="bg-gray-50 rounded-lg p-6">
+        <div class="flex items-center mb-4">
+          <img 
+            src="/images/default-og-image.webp" 
+            alt="Default OG Image" 
+            class="w-32 h-20 object-cover rounded border mr-4"
+          />
+          <div>
+            <p class="font-medium">路徑: /images/default-og-image.webp</p>
+            <p class="text-sm text-gray-600">這是所有非博客頁面的默認 OG 圖片</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Posts OG Images -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">博客文章 OG Images</h2>
+      <div class="grid gap-6">
+        {posts.map((post) => {
+          const postOGConfig = getPostOGConfig(post);
+          return (
+            <div class="bg-gray-50 rounded-lg p-6">
+              <div class="flex items-start">
+                <img 
+                  src={postOGConfig.image} 
+                  alt={`${post.title} OG Image`}
+                  class="w-32 h-20 object-cover rounded border mr-4 flex-shrink-0"
+                  onerror="this.style.border='2px dashed #ef4444'; this.style.backgroundColor='#fef2f2';"
+                />
+                <div class="flex-1">
+                  <h3 class="font-bold text-lg mb-2">{post.title}</h3>
+                  <p class="text-sm text-gray-600 mb-2">
+                    <strong>OG Image:</strong> {postOGConfig.image}
+                  </p>
+                  <p class="text-sm text-gray-600 mb-2">
+                    <strong>描述:</strong> {post.description}
+                  </p>
+                  <div class="flex gap-2">
+                    <a 
+                      href={`/blog/${post.slug}`}
+                      class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                    >
+                      查看文章
+                    </a>
+                    <a 
+                      href={`https://developers.facebook.com/tools/debug/?q=${encodeURIComponent('https://yourdomain.com/blog/' + post.slug)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700"
+                    >
+                      Facebook 調試工具
+                    </a>
+                    <a 
+                      href={`https://cards-dev.twitter.com/validator?url=${encodeURIComponent('https://yourdomain.com/blog/' + post.slug)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center px-3 py-1 bg-sky-600 text-white text-sm rounded hover:bg-sky-700"
+                    >
+                      Twitter 卡片驗證器
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Testing Tools -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">測試工具</h2>
+      <div class="bg-blue-50 rounded-lg p-6">
+        <h3 class="font-bold text-lg mb-4">推薦的 OG 測試工具</h3>
+        <ul class="space-y-2">
+          <li>
+            <a 
+              href="https://developers.facebook.com/tools/debug/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:text-blue-800 underline"
+            >
+              Facebook Open Graph Debugger
+            </a>
+            - 測試 Facebook 分享預覽
+          </li>
+          <li>
+            <a 
+              href="https://cards-dev.twitter.com/validator"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:text-blue-800 underline"
+            >
+              Twitter Card Validator
+            </a>
+            - 測試 Twitter 卡片預覽
+          </li>
+          <li>
+            <a 
+              href="https://www.linkedin.com/post-inspector/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:text-blue-800 underline"
+            >
+              LinkedIn Post Inspector
+            </a>
+            - 測試 LinkedIn 分享預覽
+          </li>
+          <li>
+            <a 
+              href="https://opengraph.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:text-blue-800 underline"
+            >
+              OpenGraph.xyz
+            </a>
+            - 通用 OG 預覽工具
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Meta Tags Preview -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">當前頁面 Meta Tags</h2>
+      <div class="bg-gray-900 text-green-400 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+        <div>&lt;meta property="og:title" content="{ogConfig.title}" /&gt;</div>
+        <div>&lt;meta property="og:description" content="{ogConfig.description}" /&gt;</div>
+        <div>&lt;meta property="og:image" content="{ogConfig.image}" /&gt;</div>
+        <div>&lt;meta property="og:type" content="website" /&gt;</div>
+        <div>&lt;meta property="og:url" content="{Astro.url}" /&gt;</div>
+        <div>&lt;meta property="og:site_name" content="Ian's Blog" /&gt;</div>
+      </div>
+    </section>
+
+    <!-- Instructions -->
+    <section>
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">使用說明</h2>
+      <div class="bg-yellow-50 rounded-lg p-6">
+        <ol class="list-decimal list-inside space-y-2">
+          <li>檢查上方每個圖片是否正常載入</li>
+          <li>點擊「Facebook 調試工具」測試 Facebook 分享預覽</li>
+          <li>點擊「Twitter 卡片驗證器」測試 Twitter 分享預覽</li>
+          <li>如果圖片無法載入，檢查圖片路徑是否正確</li>
+          <li>部署後記得清除社交媒體的快取</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+</Layout>

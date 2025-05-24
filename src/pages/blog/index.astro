@@ -1,13 +1,18 @@
 ---
 import { getAllPosts, formatDate, formatReadingTime, getAuthor } from '../../lib/metadata';
+import { getPageOGConfig } from '../../lib/og-image';
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/global/Card';
 import Tag from '../../components/global/Tag';
 
 const posts = getAllPosts();
+const ogConfig = getPageOGConfig(
+  'Blog',
+  '我的博客 - 分享前端開發、技術趨勢和個人見解的地方'
+);
 ---
 
-<Layout title="Blog">
+<Layout title={ogConfig.title} description={ogConfig.description} image={ogConfig.image}>
   <main class="max-w-6xl mx-auto px-4 py-8">
     <header class="text-center mb-12">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">

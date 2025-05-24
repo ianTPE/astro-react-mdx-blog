@@ -1,11 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getFeaturedPosts, formatDate } from '../lib/metadata';
+import { getPageOGConfig } from '../lib/og-image';
 
 const featuredPosts = getFeaturedPosts();
+const ogConfig = getPageOGConfig(
+  '首頁',
+  '歡迎來到 Ian\'s Blog，分享前端開發經驗、技術見解和個人成長的地方。'
+);
 ---
 
-<Layout title="首頁" description="歡迎來到 Ian's Blog，分享前端開發經驗、技術見解和個人成長的地方。">
+<Layout title={ogConfig.title} description={ogConfig.description} image={ogConfig.image}>
   <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Hero Section -->
     <section class="hero-section text-center py-16 relative">

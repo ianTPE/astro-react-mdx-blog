@@ -8,13 +8,27 @@ interface Props {
   description?: string;
   image?: string;
   noIndex?: boolean;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  section?: string;
+  tags?: string[];
+  structuredData?: object;
 }
 
 const { 
   title = "Ian's Blog", 
   description = "分享前端開發經驗、技術見解和個人成長的地方。專注於現代 Web 技術和最佳實踐。",
-  image = "/og-image.jpg",
-  noIndex = false 
+  image = "/images/default-og-image.webp",
+  noIndex = false,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author,
+  section,
+  tags,
+  structuredData
 } = Astro.props;
 
 const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
@@ -42,11 +56,28 @@ const fullTitle = title === "Ian's Blog" ? title : `${title} | Ian's Blog`;
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={Astro.site ? new URL(image, Astro.site) : image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:site_name" content="Ian's Blog" />
+    <meta property="og:locale" content="zh_TW" />
+    
+    {type === 'article' && (
+      <>
+        {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+        {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+        {author && <meta property="article:author" content={author} />}
+        {section && <meta property="article:section" content={section} />}
+        {tags && tags.map(tag => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -89,6 +120,12 @@ const fullTitle = title === "Ian's Blog" ? title : `${title} | Ian's Blog`;
         }
       }
     </script>
+    
+    {structuredData && (
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+    )}
   </head>
   
   <body class="min-h-screen bg-white text-gray-900 antialiased">
